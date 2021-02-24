@@ -146,13 +146,11 @@
      * @param {*} e
      */
     const navLink = function (e) {
-        console.log(e.path[3])
         if (
             'path' in e &&
-            e.path.length >= 3 &&
+            e.path[3] !== undefined &&
             e.path[3].classList.contains('noise')
         ) {
-            console.dir(e.target.dataset.section)
             if ('section' in e.target.dataset) {
                 getArticles(e.target.dataset.section)
             }
