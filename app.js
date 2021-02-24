@@ -12,6 +12,7 @@
         const articleList = app.querySelector('#articles')
 
         // prettier-ignore
+        // TODO pill links should be checked against the array of sections.
         articleList.innerHTML =
                 oData.results
                     .map(function (article) {
@@ -21,27 +22,52 @@
                                     }'>
                                         <header>
                                             <a href="${article.short_url}">
-                                                <img alt src="${article.multimedia[4].url}"
-                                                height="${article.multimedia[4].height}"
-                                                width="${article.multimedia[4].width}" />
+                                                <img alt src="${
+                                                    article.multimedia[3].url
+                                                }"
+                                                height="${
+                                                    article.multimedia[3].height
+                                                }"
+                                                width="${
+                                                    article.multimedia[3].width
+                                                }" alt="${
+                            article.multimedia[3].caption
+                        }"/>
                                             </a>
+
                                         </header>
                                         <section>
-                                            <head>
-                                                <h3><a href="${article.short_url}">${article.title}</a></h3>
-                                                <p class="details">
-                                                    <a class="pill ${article.section}"
-                                                        href="https://www.nytimes.com/section/${article.section}">
+                                            <header>
+                                                <h3><a href="${
+                                                    article.short_url
+                                                }">${article.title}</a></h3>
+                                                  <p class="details screen-lg">
+                                                    <a class="pill ${
+                                                        article.section
+                                                    }"
+                                                        href="https://www.nytimes.com/section/${
+                                                            article.section
+                                                        }">
                                                         ${article.section.toUpperCase()}
                                                     </a>
-                                                    ${article.byline ? '<span class="byline">' : ''}
+                                                    ${
+                                                        article.byline
+                                                            ? '<span class="byline">'
+                                                            : ''
+                                                    }
                                                     ${article.byline}
-                                                    ${article.byline ? '</span>'  : ''}
+                                                    ${
+                                                        article.byline
+                                                            ? '</span>'
+                                                            : ''
+                                                    }
                                                 </p>
-                                            </head>
+                                            </header>
                                             <div class="abstract">
                                                 <p >${article.abstract}
-                                                    <a href="${article.short_url}" class="read-more">[...more]</a>
+                                                    <a href="${
+                                                        article.short_url
+                                                    }" class="read-more">[...more]</a>
                                                 </p>
                                             </div>
                                         </section>
@@ -50,20 +76,26 @@
                     })
                     .join('')
     }
+
+    /*
+        The sections listed, are not up to date. And there are many article.section coming from the
+        API that do not resolve to a section via https://www.nytimes.com/section/{section}.
+        There isn't an enpoint that I am aware of for getting official sections, so rolling own.
+
+        https://developer.nytimes.com/docs/top-stories-product/1/overview
+    */
     // prettier-ignore
     const aSections = [
-    'arts',
-    'automobiles', 'books',
-    'business','style',
-        'fashion', 'dining', 'food', 'health', 'home', 'insider', 'magazine',
+    'arts', 'automobiles', 'books', 'business','style',
+        'fashion', 'dining', 'food', 'health', 'insider', 'magazine',
         'movies', 'nyregion', 'obituaries', 'opinion', 'politics', 'realestate',
-        'science', 'sports', 'sundayreview', 'technology', 'theater',
-        't-magazine', 'travel', 'up ', 'us', 'world',]
+        'science', 'sports', 'technology', 'theater',
+        't-magazine', 'travel', 'upshot', 'us', 'world',]
 
     /**
+     * Build the nav pills using our section array.
      *
-     *
-     * @param {object} [data=aSections]
+     * @param {array} [data=aSections]
      */
     const buildNav = function (data = aSections) {
         const navItems = app.querySelector('nav')
@@ -78,9 +110,9 @@
     }
 
     /**
+     * Gets the articles, defauts to 'home' section
      *
-     *
-     * @param {string} [section='']
+     * @param {string} [section='home']
      */
     const getArticles = function (sSecton = 'home') {
         const articles = new Promise(function (resolve, reject) {
@@ -108,6 +140,11 @@
         })
     }
 
+    /**
+     * Listener callback for nav clicks
+     *
+     * @param {*} e
+     */
     const navLink = function (e) {
         if ('path' in e) {
             // console.log(path[3].toString())
