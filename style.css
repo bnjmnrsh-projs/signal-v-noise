@@ -566,6 +566,17 @@ article.loading section.loading-bg {
     }
 }
 
+/* Errors */
+#ohnos {
+    text-align: center;
+    border-radius: 5px;
+    background-color: var(--newsprint-dk);
+    padding: 1em;
+}
+#ohnos h3 {
+    font-size: 3em;
+}
+
 /* Shadows for overflow container */
 .has-overflowY {
     overflow-y: auto;
