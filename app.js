@@ -146,14 +146,8 @@
      * @param {*} e
      */
     const navLink = function (e) {
-        if (
-            'path' in e &&
-            e.path[3] !== undefined &&
-            e.path[3].classList.contains('noise')
-        ) {
-            if ('section' in e.target.dataset) {
-                getArticles(e.target.dataset.section)
-            }
+        if ('section' in e.target.dataset) {
+            getArticles(e.target.dataset.section)
         }
     }
     addEventListener('click', navLink)
