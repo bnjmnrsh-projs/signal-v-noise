@@ -19,9 +19,9 @@
 }
 
 :root {
-    --text-black: rgb(14, 28, 33);
-    --newsprint: rgb(254, 254, 249);
-    --newsprint-dk: rgb(218, 218, 211);
+    --text-black: hsl(196, 40%, 9%);
+    --newsprint: hsl(60, 71%, 99%);
+    --newsprint-dk: hsl(60, 9%, 94%);
     --roman-silver: hsla(214, 11%, 57%, 1);
     --charcoal: hsla(224, 10%, 29%, 1);
     --independence: hsla(253, 10%, 36%, 1);
