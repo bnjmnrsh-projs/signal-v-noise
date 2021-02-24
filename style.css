@@ -1,68 +1,90 @@
-/* latin-ext */
+@font-face {
+    font-family: 'Chomsky Regular';
+    font-style: normal;
+    font-display: swap;
+    src: url(./fonts/Chomsky/Chomsky.woff) format('woff');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
+        U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Newsreader';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(./fonts/Newsreader/Newsreader_12pt-Regular.woff2) format('woff');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
+        U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
     --text-black: rgb(14, 28, 33);
-    --newsprint: hsla(60, 24%, 93%, 1);
+    --newsprint: rgb(254, 254, 249);
     --newsprint-dk: rgb(218, 218, 211);
     --roman-silver: hsla(214, 11%, 57%, 1);
     --charcoal: hsla(224, 10%, 29%, 1);
     --independence: hsla(253, 10%, 36%, 1);
     --shadows: hsla(180, 3%, 55%, 0.4);
 
+    /* Sass would make this easier (◔_◔) */
     --arts-pill: hsla(243, 24%, 31%, 1);
-    --arts-article: hsla(243, 24%, 31%, 0.08);
+    --arts-article: hsla(243, 24%, 31%, 0.03);
     --automobiles-pill: hsla(178, 41%, 36%, 1);
-    --automobiles-article: hsla(178, 41%, 36%, 0.08);
+    --automobiles-article: hsla(178, 41%, 36%, 0.03);
     --books-pill: hsla(2, 24%, 28%, 1);
-    --books-article: hsla(2, 24%, 28%, 0.08);
+    --books-article: hsla(2, 24%, 28%, 0.03);
     --business-pill: hsla(253, 10%, 36%, 1);
-    --business-article: hsla(253, 10%, 36%, 0.08);
+    --business-article: hsla(253, 10%, 36%, 0.03);
     --fashion-pill: hsla(347, 30%, 72%, 1);
-    --fashion-article: hsla(347, 30%, 72%, 0.08);
+    --fashion-article: hsla(347, 30%, 72%, 0.03);
     --food-pill: hsla(302, 24%, 57%, 1);
-    --food-article: hsla(302, 24%, 57%, 0.08);
+    --food-article: hsla(302, 24%, 57%, 0.03);
     --health-pill: hsla(38, 73%, 60%, 1);
-    --health-article: hsla(38, 73%, 60%, 0.08);
+    --health-article: hsla(38, 73%, 60%, 0.03);
     --home-pill: hsla(221, 76%, 38%, 1);
-    --home-article: hsla(221, 76%, 38%, 0.08);
+    --home-article: hsla(221, 76%, 38%, 0.03);
     --insider-pill: hsla(208, 87%, 44%, 1);
-    --insider-article: hsla(208, 87%, 44%, 0.08);
+    --insider-article: hsla(208, 87%, 44%, 0.03);
     --magazine-pill: hsla(70, 36%, 54%, 1);
-    --magazine-article: hsla(70, 36%, 54%, 0.08);
+    --magazine-article: hsla(70, 36%, 54%, 0.03);
     --movies-pill: hsla(120, 48%, 62%, 1);
-    --movies-article: hsla(120, 48%, 62%, 0.08);
+    --movies-article: hsla(120, 48%, 62%, 0.03);
     --nyregion-pill: hsla(47, 65%, 63%, 1);
-    --nyregion-article: hsla(47, 65%, 63%, 0.08);
+    --nyregion-article: hsla(47, 65%, 63%, 0.03);
     --obituaries-pill: hsla(224, 10%, 29%, 1);
-    --obituaries-article: hsla(224, 10%, 29%, 0.08);
+    --obituaries-article: hsla(224, 10%, 29%, 0.03);
     --opinion-pill: hsla(51, 88%, 58%, 1);
-    --opinion-article: hsla(51, 88%, 58%, 0.08);
+    --opinion-article: hsla(51, 88%, 58%, 0.03);
     --politics-pill: hsla(91, 11%, 61%, 1);
-    --politics-article: hsla(91, 11%, 61%, 0.08);
+    --politics-article: hsla(91, 11%, 61%, 0.03);
     --realestate-pill: hsla(233, 27%, 36%, 1);
-    --realestate-article: hsla(233, 27%, 36%, 0.08);
+    --realestate-article: hsla(233, 27%, 36%, 0.03);
     --science-pill: hsl(127, 44%, 37%);
-    --science-article: hsla(127, 44%, 37%, 0.08);
+    --science-article: hsla(127, 44%, 37%, 0.03);
     --sports-pill: hsla(211, 91%, 52%, 1);
-    --sports-article: hsla(211, 91%, 52%, 0.08);
+    --sports-article: hsla(211, 91%, 52%, 0.03);
     --sundayreview-pill: hsla(32, 76%, 68%, 1);
-    --sundayreview-article: hsla(32, 76%, 68%, 0.08);
+    --sundayreview-article: hsla(32, 76%, 68%, 0.03);
     --technology-pill: hsla(305, 11%, 61%, 1);
-    --technology-article: hsla(305, 11%, 61%, 0.08);
+    --technology-article: hsla(305, 11%, 61%, 0.03);
     --theater-pill: hsla(180, 73%, 43%, 1);
-    --theater-article: hsla(180, 73%, 43%, 0.08);
+    --theater-article: hsla(180, 73%, 43%, 0.03);
     --t-magazine-pill: hsla(25, 100%, 37%, 1);
-    --t-magazine-article: hsla(25, 100%, 37%, 0.08);
+    --t-magazine-article: hsla(25, 100%, 37%, 0.03);
     --travel-pill: hsla(47, 65%, 63%, 1);
-    --travel-article: hsla(47, 65%, 63%, 0.08);
+    --travel-article: hsla(47, 65%, 63%, 0.03);
     --upshot-pill: hsla(355, 67%, 26%, 1);
-    --upshot-article: hsla(355, 67%, 26%, 0.08);
+    --upshot-article: hsla(355, 67%, 26%, 0.03);
     --us-pill: hsl(225, 56%, 21%, 1);
-    --us-article: hsla(225, 34%, 23%, 0.08);
+    --us-article: hsla(225, 34%, 23%, 0.03);
     --world-pill: hsla(120, 35%, 36%, 1);
-    --world-article: hsl(120, 35%, 36%, 0.08);
+    --world-article: hsl(120, 35%, 36%, 0.03);
 }
 body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 1em auto;
     max-width: 40em;
     width: 88%;
@@ -70,30 +92,62 @@ body {
     background-color: var(--newsprint);
     color: var(--text-black);
 }
+
+/* Masthead */
+.masthead a {
+    color: inherit;
+    text-decoration: none;
+}
+.masthead {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 1em;
+    align-items: center;
+    justify-content: center;
+}
 .masthead h1 {
-    /* font-family: 'Abril Fatface', serif; */
     font-family: 'Chomsky Regular', serif;
-    font-size: 2.5em;
-    line-height: 1.1em;
-    margin-bottom: 22px;
+    font-size: 1.6em;
+    text-align: center;
+    margin-block-end: 0;
+    border-bottom: 1px var(--shadows) solid;
+}
+.masthead .strapline {
+    margin-block-start: 0.5em;
+    font-size: 0.8em;
+    font-style: italic;
+    text-align: center;
 }
 
-nav ul {
+/* Navigation */
+nav.noise {
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px var(--shadows) solid;
+    width: 80%;
+    margin: 0 auto;
+}
+nav.noise ul {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
     padding: 0;
     margin: 0;
 }
-nav li {
+nav.noise li {
     flex-basis: auto;
     text-decoration: none;
     list-style: none;
     margin: 0.1em;
 }
-nav .pill {
-    font-size: smaller;
+nav.noise .pill {
+    /* font-size: smaller; */
 }
+
+/* Pill base styels */
 .pill {
     display: inline-table;
     border-radius: 19.3px;
@@ -114,43 +168,54 @@ nav .pill {
 .pill:hover {
     filter: brightness(120%) saturate(1.3);
 }
+
+.newsfeed-wrap {
+    height: 70vh;
+}
 ul.newsfeed {
     padding: 0.5em;
     margin: 0;
     list-style-type: none;
-    height: 70vh;
-    overflow: auto;
 }
+
+/* News items */
 .news-item {
     position: relative;
     display: flex;
     flex-direction: row;
     padding: 0.8em;
     margin: 0.5em;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: var(--newsprint-dk);
-    box-shadow: var(--newsprint-dk) 3px 3px 4px, var(--shadows) -1px -1px 1px;
+    transition: all ease 220ms;
+    border: 1px var(--shadows) solid;
+}
+.news-item:hover {
+    box-shadow: var(--shadows) 1px 1px 5px;
 }
 
 .news-item header {
     padding-right: 0.8em;
+}
+
+.news-item header .details.screen-sm {
+    display: none;
 }
 .news-item header img {
     border-radius: 3px;
     box-shadow: var(--shadows) 2px 2px 2px;
 }
 .news-item h3 {
-    margin-block-start: 0;
+    margin-top: -3px;
+    margin-bottom: 8px;
+    font-size: 1.25rem;
     font-weight: 700;
+    font-style: italic;
+    line-height: 1.4375rem;
+    letter-spacing: 0.2px;
     -webkit-letter-spacing: 0.2px;
     -moz-letter-spacing: 0.2px;
     -ms-letter-spacing: 0.2px;
-    letter-spacing: 0.2px;
-    margin-top: -3px;
-
-    font-size: 1.25rem;
-    line-height: 1.4375rem;
-    margin-bottom: 8px;
 }
 .news-item a.read-more,
 .news-item h3 a {
@@ -192,6 +257,7 @@ ul.newsfeed {
     font-size: small;
 }
 
+/* Color styles for news catagories */
 .news-item.arts {
     background-color: var(--arts-article);
 }
@@ -238,9 +304,11 @@ ul.newsfeed {
     background-color: var(--food-pill);
     color: var(--newsprint);
 }
+.news-item.well,
 .news-item.health {
     background-color: var(--health-article);
 }
+.pill.well,
 .pill.health {
     background-color: var(--health-pill);
     color: var(--charcoal);
@@ -322,9 +390,11 @@ ul.newsfeed {
     background-color: var(--sports-pill);
     color: var(--newsprint);
 }
+.news-item.podcasts,
 .news-item.sundayreview {
     background-color: var(--sundayreview-article);
 }
+.pill.podcasts,
 .pill.sundayreview {
     background-color: var(--sundayreview-pill);
     color: var(--newsprint);
@@ -357,9 +427,11 @@ ul.newsfeed {
     background-color: var(--travel-pill);
     color: var(--charcoal);
 }
+.news-item.briefing,
 .news-item.upshot {
     background-color: var(--upshot-article);
 }
+.pill.briefing,
 .pill.upshot {
     background-color: var(--upshot-pill);
     color: var(--newsprint);
@@ -379,22 +451,94 @@ ul.newsfeed {
     color: var(--newsprint);
 }
 
-article {
+article.loading {
     justify-content: space-between;
 }
-article header.loading-bg {
+article.loading header.loading-bg {
     width: 50px !important;
     height: 50px;
     border-radius: 3px;
     padding-right: 0.3em;
 }
-article section.loading-bg {
+article.loading section.loading-bg {
     width: 90%;
     height: 50px;
     margin-left: 0.3em;
     border-radius: 3px;
 }
 
+@media screen and (max-width: 600px) {
+    body {
+        width: 94%;
+    }
+    .newsfeed-wrap {
+        /* height: 100%; */
+        overflow-x: hidden;
+        max-width: 90vw;
+        overflow-y: auto;
+    }
+    .newsfeed {
+        overflow-x: hidden;
+        display: flex;
+        flex-flow: column wrap;
+        max-height: 6500px;
+        overflow-y: scroll;
+        max-width: 90vw;
+        align-items: flex-start;
+    }
+    .newsfeed li {
+        width: 50%;
+        flex: 2 auto;
+    }
+
+    .news-item {
+        flex-direction: column;
+    }
+    .news-item header .details.screen-sm {
+        display: initial;
+        border: none;
+    }
+    .news-item header .details.screen-sm .byline {
+        border: none;
+    }
+    .news-item header .details.screen-sm .pill {
+        border: none;
+    }
+    .news-item header .details.screen-lg {
+        /* display: none; */
+    }
+    .news-item header {
+        padding: 0.2em;
+        margin-bottom: 0.4em;
+        align-content: center;
+    }
+    .news-item header img {
+        background-color: teal;
+        width: 100%;
+        height: auto;
+    }
+}
+@media screen and (max-width: 450px) {
+    .newsfeed-wrap.has-overflowY {
+        overflow-y: visible;
+        max-width: initial;
+        width: 100%;
+        height: auto;
+    }
+    .newsfeed {
+        flex-flow: column;
+        max-height: initial;
+        max-width: initial;
+        overflow-y: visible;
+    }
+
+    .newsfeed li {
+        width: auto;
+        flex-flow: column wrap;
+    }
+}
+
+/* Loading animation */
 .loading-bg {
     background: linear-gradient(
         89deg,
@@ -420,4 +564,27 @@ article section.loading-bg {
     100% {
         background-position: 0% 56%;
     }
+}
+
+/* Shadows for overflow container */
+.has-overflowY {
+    overflow-y: auto;
+    background: linear-gradient(to top, transparent, var(--newsprint) 70%),
+        linear-gradient(to bottom, transparent, var(--newsprint) 70%),
+        radial-gradient(farthest-side at 50% 0%, var(--shadows), transparent),
+        radial-gradient(farthest-side at 50% 100%, var(--shadows), transparent);
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    background-position: top center, bottom center, top center, bottom center;
+    background-attachment: local, local, scroll, scroll;
+}
+
+.has-overflowY::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 0.5rem;
+}
+.has-overflowY::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
