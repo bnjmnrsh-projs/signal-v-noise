@@ -12,30 +12,26 @@
         const articleList = app.querySelector('#articles')
 
         // prettier-ignore
-        // TODO pill links should be checked against the array of sections.
         articleList.innerHTML =
                 oData.results
                     .map(function (article) {
-                        return `<li>
-                                    <article class='news-item ${
-                                        article.section
-                                    }'>
-                                        <header>
-                                            <a href="${article.short_url}">
-                                                <img alt src="${
-                                                    article.multimedia[3].url
-                                                }"
-                                                height="${
-                                                    article.multimedia[3].height
-                                                }"
-                                                width="${
-                                                    article.multimedia[3].width
-                                                }" alt="${
-                            article.multimedia[3].caption
-                        }"/>
-                                            </a>
-
-                                        </header>
+                        let assembly = `<li>
+                                    <article class='news-item ${article.section}'>
+                                        <header>`
+                        // Account for multimedia not coming in as expeced.
+                        if (
+                            'multimedia' in article &&
+                            article.multimedia !== null &&
+                            article.multimedia.length >= 3
+                        ) {
+                            assembly += `   <a href="${article.short_url}">
+                                                <img alt src="${article.multimedia[3].url}"
+                                                height="${article.multimedia[3].height}"
+                                                width="${article.multimedia[3].width}"
+                                                alt="${article.multimedia[3].caption}"/>
+                                            </a>`
+                        }
+                        assembly += `</header>
                                         <section>
                                             <header>
                                                 <h3><a href="${
@@ -73,6 +69,8 @@
                                         </section>
                                     </article>
                                 </li>`
+
+                        return assembly
                     })
                     .join('')
     }
@@ -103,7 +101,7 @@
             '<ul>' +
             data
                 .map(function (section) {
-                    return `<li><a href="#${section}" class="pill ${section}">${section.toUpperCase()}</a></li>`
+                    return `<li><a href="#${section}" class="pill ${section}" data-section="${section}">${section.toUpperCase()}</a></li>`
                 })
                 .join('') +
             '</ul>'
@@ -127,15 +125,17 @@
                 .then(function (data) {
                     buildArticles(data)
                 })
-                .catch(function (err) {
-                    // console.error(err)
+                .catch(function (err, data) {
+                    console.error(err)
+                    console.dir(err)
                     app.innerHTML = `
-            <p>Bahh! Something went wrong....</p>
-            <div>
-<pre>
-    ${err}
-</pre>
-            </div>`
+                    <div id="ohnos">
+                        <h3>⥀.⥀ Oh Nooos!</h3>
+                        <p>Bahh! Something went wrong....</p>
+                        <div>
+    <pre>${err.stack}</pre>
+                        </div>
+                    </div>`
                 })
         })
     }
@@ -146,9 +146,16 @@
      * @param {*} e
      */
     const navLink = function (e) {
-        if ('path' in e) {
-            // console.log(path[3].toString())
-            console.log(e.path[3].classList.contains('sn'))
+        console.log(e.path[3])
+        if (
+            'path' in e &&
+            e.path.length >= 3 &&
+            e.path[3].classList.contains('noise')
+        ) {
+            console.dir(e.target.dataset.section)
+            if ('section' in e.target.dataset) {
+                getArticles(e.target.dataset.section)
+            }
         }
     }
     addEventListener('click', navLink)
