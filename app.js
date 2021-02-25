@@ -3,6 +3,51 @@
     const KEY = '.json?api-key=' + 'phTGaNCB3ipdmBV1gZ1OlGVX6rne7i8Z'
     const API = 'https://api.nytimes.com/svc/topstories/v2/'
 
+    /*
+        The sections listed, in the 'section' param in the API, may not always resolve to
+         a section via https://www.nytimes.com/section/{section}.
+        The list that appears on the top-stories doumentation, is also not complete.
+        As there isn't an endpoint that I am aware of for getting an official list of sections,
+        I'm rolling own.
+
+        https://developer.nytimes.com/docs/top-stories-product/1/overview
+    */
+    // prettier-ignore
+    const aSections = [
+    'arts', 'automobiles', 'books', 'business','style',
+        'fashion', 'dining', 'food', 'health', 'insider', 'magazine',
+        'movies', 'nyregion', 'obituaries', 'opinion', 'politics', 'realestate',
+        'science', 'sports', 'technology', 'theater',
+        't-magazine', 'travel', 'upshot', 'us', 'world',]
+
+    /**
+     * Set the current page link to active
+     *
+     */
+    const navActiveLink = function () {
+        const currentPg = window.location.hash.replace('#', '')
+        const nav = document.querySelector('nav.noise')
+
+        if (navLink) {
+            // iterate over each link
+            const pills = nav.querySelectorAll('.pill')
+            pills.forEach(function (pill) {
+                pill.classList.remove('active')
+
+                if (pill.classList.contains(currentPg)) {
+                    pill.classList.add('active')
+                }
+            })
+        }
+    }
+
+    const simpleRouter = function () {
+        let currentPg = window.location.hash.replace('#', '')
+        currentPg = currentPg ? currentPg : 'home'
+        getArticles(currentPg)
+        buildNav()
+    }
+
     /**
      *
      *
@@ -10,13 +55,14 @@
      */
     const buildArticles = function (oData) {
         const articleList = app.querySelector('#articles')
-
+        navActiveLink()
         // prettier-ignore
         articleList.innerHTML =
                 oData.results
-                    .map(function (article) {
+            .map(function (article) {
+                        const vaidSection = aSections.indexOf(article.section) >= 0 ? true : false
                         let assembly = `<li>
-                                    <article class='news-item ${article.section}'>
+                                    <article class="news-item ${article.section}">
                                         <header>`
                         // Account for multimedia not coming in as expeced.
                         if (
@@ -24,11 +70,11 @@
                             article.multimedia !== null &&
                             article.multimedia.length >= 3
                         ) {
-                            assembly += `   <a href="${article.short_url}">
-                                                <img alt src="${article.multimedia[3].url}"
+                        assembly +=         `<a href="${article.short_url}">
+                                                <img class="loading-bg" src="${article.multimedia[3].url}"
                                                 height="${article.multimedia[3].height}"
                                                 width="${article.multimedia[3].width}"
-                                                alt="${article.multimedia[3].caption}"/>
+                                                alt="${article.multimedia[3].copyright}" role="presentation"/>
                                             </a>`
                         }
                         assembly += `</header>
@@ -37,26 +83,19 @@
                                                 <h3><a href="${
                                                     article.short_url
                                                 }">${article.title}</a></h3>
-                                                  <p class="details screen-lg">
-                                                    <a class="pill ${
-                                                        article.section
-                                                    }"
-                                                        href="https://www.nytimes.com/section/${
-                                                            article.section
-                                                        }">
-                                                        ${article.section.toUpperCase()}
-                                                    </a>
-                                                    ${
-                                                        article.byline
-                                                            ? '<span class="byline">'
-                                                            : ''
-                                                    }
+                                                  <p class="details">`
+                if (vaidSection) {
+                        assembly +=                `<a class="pill ${article.section}"
+                                                        href="https://www.nytimes.com/section/${article.section
+                                                    }">`
+                } else {
+                        assembly +=                 `<span class="pill ${article.section}">`
+                }
+                        assembly +=                 `${article.section}
+                                                    ${vaidSection ? '</a>' : '</span>'}
+                                                    ${article.byline ? '<span class="byline">' : ''}
                                                     ${article.byline}
-                                                    ${
-                                                        article.byline
-                                                            ? '</span>'
-                                                            : ''
-                                                    }
+                                                    ${article.byline ? '</span>' : ''}
                                                 </p>
                                             </header>
                                             <div class="abstract">
@@ -75,21 +114,6 @@
                     .join('')
     }
 
-    /*
-        The sections listed, are not up to date. And there are many article.section coming from the
-        API that do not resolve to a section via https://www.nytimes.com/section/{section}.
-        There isn't an enpoint that I am aware of for getting official sections, so rolling own.
-
-        https://developer.nytimes.com/docs/top-stories-product/1/overview
-    */
-    // prettier-ignore
-    const aSections = [
-    'arts', 'automobiles', 'books', 'business','style',
-        'fashion', 'dining', 'food', 'health', 'insider', 'magazine',
-        'movies', 'nyregion', 'obituaries', 'opinion', 'politics', 'realestate',
-        'science', 'sports', 'technology', 'theater',
-        't-magazine', 'travel', 'upshot', 'us', 'world',]
-
     /**
      * Build the nav pills using our section array.
      *
@@ -101,7 +125,7 @@
             '<ul>' +
             data
                 .map(function (section) {
-                    return `<li><a href="#${section}" class="pill ${section}" data-section="${section}">${section.toUpperCase()}</a></li>`
+                    return `<li><a href="#${section}" class="pill ${section}" data-section="${section}">${section}</a></li>`
                 })
                 .join('') +
             '</ul>'
@@ -147,11 +171,11 @@
      */
     const navLink = function (e) {
         if ('section' in e.target.dataset) {
+            e.target.classList.add('active')
             getArticles(e.target.dataset.section)
         }
     }
     addEventListener('click', navLink)
 
-    getArticles()
-    buildNav()
+    simpleRouter()
 })()
