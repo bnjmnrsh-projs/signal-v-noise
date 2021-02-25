@@ -86,7 +86,7 @@ body {
     align-content: center;
     align-items: center;
     background-color: var(--newsprint);
-    margin: 1em auto;
+    margin: 0 auto;
     max-width: 40em;
     width: 88%;
     font-family: 'Newsreader', serif;
@@ -133,19 +133,17 @@ body {
 
 /* Navigation */
 nav.noise {
-    padding-bottom: 1em;
-    margin-bottom: 1em;
-    border-bottom: 1px var(--shadows) solid;
     margin: 0 auto;
     align-items: flex-end;
+    border-bottom: 1px var(--shadows) solid;
 }
 nav.noise ul {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    padding: 0;
     margin: 0;
+    padding: 0 0 1em 0;
 }
 nav.noise li {
     text-decoration: none;
@@ -163,6 +161,19 @@ nav.noise .pill:hover {
     filter: saturate(1.3) brightness(1.1);
 }
 
+#loader {
+    height: 5px;
+    width: 100%;
+    transition: opacity 1s ease;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+}
+#loader.loading-bg {
+    background-color: var(--insider-pill);
+}
 /* Pill styles */
 .pill {
     text-transform: uppercase;
@@ -482,9 +493,11 @@ ul.newsfeed {
     background-color: var(--us-pill);
     color: var(--newsprint);
 }
+.news-item.espanol,
 .news-item.world {
     background-color: var(--world-article);
 }
+.pill.espanol,
 .pill.world {
     background-color: var(--world-pill);
     color: var(--newsprint);
@@ -600,13 +613,15 @@ article.loading section.loading-bg {
 .loading-bg {
     background: linear-gradient(
         89deg,
-        var(--newsprint),
-        var(--newsprint),
         var(--newsprint-dk),
-        var(--newsprint),
-        var(--newsprint),
-        var(--newsprint),
-        var(--newsprint)
+        transparent,
+        transparent,
+        var(--newsprint-dk),
+        transparent,
+        transparent,
+        var(--newsprint-dk),
+        transparent,
+        transparent
     );
     background-size: 300% 200%;
     -webkit-animation: loading 59s ease infinite;
@@ -630,6 +645,7 @@ article.loading section.loading-bg {
     border-radius: 5px;
     background-color: var(--newsprint-dk);
     padding: 1em;
+    width: 100%;
 }
 #ohnos h3 {
     font-size: 3em;

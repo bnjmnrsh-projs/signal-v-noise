@@ -32,6 +32,7 @@
         temp.textContent = str
         return temp.innerHTML
     }
+
     /**
      * Set the current page link to active
      *
@@ -43,6 +44,7 @@
         if (navLink) {
             // iterate over each link
             const pills = nav.querySelectorAll('.pill')
+
             pills.forEach(function (pill) {
                 pill.classList.remove('active')
 
@@ -73,52 +75,49 @@
      */
     const buildArticles = function (oData) {
         const articleList = app.querySelector('#articles')
+        loader = document.querySelector('#loader')
+        loader.style.opacity = 1
         navActiveLink()
         // prettier-ignore
         articleList.innerHTML =
-                oData.results
-            .map(function (article) {
-                        const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0 ? true : false
-                        let assembly = `<li>
+            oData.results
+                .map(function (article) {
+                    const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0 ? true : false
+                    let assembly = `<li>
                                     <article class="news-item ${snitiz(article.section)}">
                                         <header>`
-                        // Account for multimedia not coming in as expeced.
-                        if (
-                            'multimedia' in article &&
-                            article.multimedia !== null &&
-                            article.multimedia.length >= 3
-                        ) {
+                    // Account for multimedia not coming in as expeced.
+                    if (
+                        'multimedia' in article &&
+                        article.multimedia !== null &&
+                        article.multimedia.length >= 3
+                    ) {
                         assembly += `<a href="${snitiz(article.short_url)}">
-                                                <img class="loading-bg" src="${
-                                                    snitiz(article.multimedia[3].url)
-                                                }"
-                                                height="${
-                                                    snitiz(article.multimedia[3].height)
-                                                }"
-                                                width="${
-                                                    snitiz(article.multimedia[3].width)
-                                                }"
-                                                alt="${
-                                                    snitiz(article.multimedia[3]
-                                                        .copyright)
-                                                }" role="presentation"/>
+                                                <img class="loading-bg" src="${snitiz(article.multimedia[3].url)
+                            }"
+                                                height="${snitiz(article.multimedia[3].height)
+                            }"
+                                                width="${snitiz(article.multimedia[3].width)
+                            }"
+                                                alt="${snitiz(article.multimedia[3]
+                                .copyright)
+                            }" role="presentation"/>
                                             </a>`
-                        }
-                        assembly += `</header>
+                    }
+                    assembly += `</header>
                                         <section>
                                             <header>
-                                                <h3><a href="${
-                                                    snitiz(article.short_url)
-                                                }">${article.title}</a></h3>
+                                                <h3><a href="${snitiz(article.short_url)
+                        }">${article.title}</a></h3>
                                                   <p class="details">`
-                if (vaidSection) {
-                        assembly +=                `<a class="pill ${snitiz(article.section)}"
+                    if (vaidSection) {
+                        assembly += `<a class="pill ${snitiz(article.section)}"
                                                         href="https://www.nytimes.com/section/${snitiz(article.section)
-                                                    }">`
-                } else {
-                        assembly +=                 `<span class="pill ${snitiz(article.section)}">`
-                }
-                        assembly +=                 `${snitiz(article.section)}
+                            }">`
+                    } else {
+                        assembly += `<span class="pill ${snitiz(article.section)}">`
+                    }
+                    assembly += `${snitiz(article.section)}
                                                     ${vaidSection ? '</a>' : '</span>'}
                                                     ${snitiz(article.byline) ? '<span class="byline">' : ''}
                                                     ${snitiz(article.byline)}
@@ -126,20 +125,21 @@
                                                 </p>
                                             </header>
                                             <div class="abstract">`
-                if (snitiz(article.abstract)) {
-                        assembly +=         `<p >${snitiz(article.abstract)}
+                    if (snitiz(article.abstract)) {
+                        assembly += `<p >${snitiz(article.abstract)}
                                                     <a href="${snitiz(article.short_url)
-                                                    }" class="read-more">[...more]</a>
+                            }" class="read-more">[...more]</a>
                                                 </p>`
-                }
-                        assembly +=         `</div>
+                    }
+                    assembly += `</div>
                                         </section>
                                     </article>
                                 </li>`
 
-                        return assembly
-                    })
-                    .join('')
+                    return assembly
+                })
+            .join('')
+        loader.style.opacity = 0
     }
 
     /**
@@ -165,6 +165,8 @@
      * @param {string} [section='home']
      */
     const getArticles = function (sSecton = 'home') {
+        loader = document.querySelector('#loader')
+        loader.style.opacity = 1
         const articles = new Promise(function (resolve, reject) {
             fetch(API + sSecton + KEY)
                 .then(function (resp) {
@@ -178,8 +180,10 @@
                     buildArticles(data)
                 })
                 .catch(function (err, data) {
+                    loader.style.opacity = 0
+                    const articles = document.querySelector('#articles')
                     console.error(err)
-                    app.innerHTML = `<div id="ohnos">
+                    const errors = `<div id="ohnos">
                         <h3><span aria-hidden="true">⥀.⥀ <br/></span>Oh Nooos!</h3>
                         <p class="sr-only">There has been a crittical error:</p>
                         <div>
@@ -195,6 +199,9 @@
                             }
                         </div>
                     </div>`
+                    if (articles) {
+                        articles.innerHTML = errors
+                    }
                 })
         })
     }
