@@ -26,15 +26,15 @@
     --shadows: hsla(180, 3%, 55%, 0.4);
 
     /* Sass would make this easier (◔_◔) */
-    --arts-pill: hsla(243, 24%, 31%, 1);
-    --arts-article: hsla(243, 24%, 31%, 0.03);
+    --arts-pill: hsl(327, 32%, 46%);
+    --arts-article: hsla(327, 24%, 31%, 0.03);
     --automobiles-pill: hsla(178, 41%, 36%, 1);
     --automobiles-article: hsla(178, 41%, 36%, 0.03);
     --books-pill: hsla(2, 24%, 28%, 1);
     --books-article: hsla(2, 24%, 28%, 0.03);
-    --business-pill: hsla(253, 10%, 36%, 1);
-    --business-article: hsla(253, 10%, 36%, 0.03);
-    --fashion-pill: hsla(347, 30%, 72%, 1);
+    --business-pill: hsl(253, 28%, 41%);
+    --business-article: hsla(253, 28%, 41%, 0.03);
+    --fashion-pill: hsl(346, 50%, 67%);
     --fashion-article: hsla(347, 30%, 72%, 0.03);
     --food-pill: hsla(302, 24%, 57%, 1);
     --food-article: hsla(302, 24%, 57%, 0.03);
@@ -64,8 +64,8 @@
     --sports-article: hsla(211, 91%, 52%, 0.03);
     --sundayreview-pill: hsla(32, 76%, 68%, 1);
     --sundayreview-article: hsla(32, 76%, 68%, 0.03);
-    --technology-pill: hsla(305, 11%, 61%, 1);
-    --technology-article: hsla(305, 11%, 61%, 0.03);
+    --technology-pill: hsl(303, 43%, 41%);
+    --technology-article: hsla(303, 43%, 41%, 0.03);
     --theater-pill: hsla(180, 73%, 43%, 1);
     --theater-article: hsla(180, 73%, 43%, 0.03);
     --t-magazine-pill: hsla(25, 100%, 37%, 1);
@@ -94,7 +94,18 @@ body {
     color: var(--text-black);
     -webkit-font-smoothing: antialiased;
 }
-
+/* Hidden from screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap; /* added line */
+    border: 0;
+}
 /* Masthead */
 .masthead a {
     color: inherit;
@@ -188,6 +199,8 @@ ul.newsfeed {
     padding: 0;
     margin: 0;
     list-style-type: none;
+    min-width: 25em;
+    min-height: 40em;
 }
 .newsfeed li {
     /* fix for .has-overflowY shadows on safari */
@@ -213,15 +226,12 @@ ul.newsfeed {
     padding-right: 0.8em;
 }
 
-.news-item header .details.screen-sm {
-    display: none;
-}
 .news-item header img {
     border-radius: 3px;
     box-shadow: var(--shadows) 2px 2px 2px;
 }
 .news-item h3 {
-    margin-top: -3px;
+    margin-top: 2px;
     margin-bottom: 8px;
     font-size: 1.25rem;
     font-weight: 700;
@@ -248,10 +258,11 @@ ul.newsfeed {
 .news-item .details {
     display: flex;
     align-items: center;
-    padding: 0.5em;
-    margin: 0.5em;
+    padding: 0 0.5em 0.5em 0.5em;
+    /* margin-top: -0.2em; */
     font-size: small;
     border-bottom: 1px var(--shadows) solid;
+    /* border-top: 1px var(--shadows) solid; */
 }
 .news-item .byline {
     display: inline-block;
@@ -400,9 +411,11 @@ ul.newsfeed {
     background-color: var(--realestate-pill);
     color: var(--newsprint);
 }
+.news-item.climate,
 .news-item.science {
     background-color: var(--science-article);
 }
+.pill.climate,
 .pill.science {
     background-color: var(--science-pill);
     color: var(--newsprint);
@@ -451,10 +464,12 @@ ul.newsfeed {
     background-color: var(--travel-pill);
     color: var(--charcoal);
 }
+.news-item.at-home,
 .news-item.briefing,
 .news-item.upshot {
     background-color: var(--upshot-article);
 }
+.pill.at-home,
 .pill.briefing,
 .pill.upshot {
     background-color: var(--upshot-pill);
@@ -535,11 +550,13 @@ ul.newsfeed {
     .news-item header {
         padding: 0.2em;
         margin-bottom: 0.4em;
-        align-content: center;
     }
     .news-item header img {
         width: 100%;
         height: auto;
+    }
+    .news-item .abstract {
+        margin-top: -0.3em;
     }
 }
 @media screen and (max-width: 450px) {
