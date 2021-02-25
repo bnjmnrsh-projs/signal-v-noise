@@ -14,11 +14,11 @@
     */
     // prettier-ignore
     const aSections = [
-    'arts', 'automobiles', 'books', 'business','style',
-        'fashion', 'dining', 'food', 'health', 'insider', 'magazine',
-        'movies', 'nyregion', 'obituaries', 'opinion', 'politics', 'realestate',
-        'science', 'sports', 'technology', 'theater',
-        't-magazine', 'travel', 'upshot', 'us', 'world',]
+        'home', 'business', 'politics', 'arts',
+        'style', 'fashion', 't-magazine',
+        'dining', 'food', 'health', 'insider', 'magazine', 'travel', 'sports',
+        'automobiles', 'books', 'movies', 'theater', 'realestate', 'obituaries',
+        'science', 'technology', 'opinion', 'upshot', 'nyregion', 'us', 'world',]
     /**
      * Sanitize and encode all HTML in a user-submitted string
      * https://portswigger.net/web-security/cross-site-scripting/preventing
@@ -53,11 +53,19 @@
         }
     }
 
+    /**
+     * A super simple router, no caching
+     *
+     */
     const simpleRouter = function () {
         let currentPg = window.location.hash.replace('#', '')
         currentPg = currentPg ? currentPg : 'home'
         getArticles(currentPg)
         buildNav()
+
+        addEventListener('hashchange', function (e) {
+            getArticles(currentPg)
+        })
     }
 
     /**
@@ -119,13 +127,14 @@
                                                     ${snitiz(article.byline) ? '</span>' : ''}
                                                 </p>
                                             </header>
-                                            <div class="abstract">
-                                                <p >${snitiz(article.abstract)}
-                                                    <a href="${
-                                                        snitiz(article.short_url)
+                                            <div class="abstract">`
+                if (snitiz(article.abstract)) {
+                        assembly +=         `<p >${snitiz(article.abstract)}
+                                                    <a href="${snitiz(article.short_url)
                                                     }" class="read-more">[...more]</a>
-                                                </p>
-                                            </div>
+                                                </p>`
+                }
+                        assembly +=         `</div>
                                         </section>
                                     </article>
                                 </li>`
@@ -172,22 +181,20 @@
                 })
                 .catch(function (err, data) {
                     console.error(err)
-                    console.dir(err)
-                    app.innerHTML = `
-                    <div id="ohnos">
-                        <h3>⥀.⥀ Oh Nooos!</h3>
-                        <p>Bahh! Something went wrong....</p>
+                    app.innerHTML = `<div id="ohnos">
+                        <h3><span aria-hidden="true">⥀.⥀ <br/></span>Oh Nooos!</h3>
+                        <p class="sr-only">There has been a crittical error:</p>
                         <div>
-                        ${err.stack ? '<pre>' + err.stack + '<pre>' : ''}
-                        ${
-                            err.status
-                                ? '<pre>' +
-                                  err.statusText +
-                                  ': ' +
-                                  err.status +
-                                  '<pre>'
-                                : ''
-                        }
+                            ${err.stack ? '<pre>' + err.stack + '<pre>' : ''}
+                            ${
+                                err.status
+                                    ? '<pre>' +
+                                      err.statusText +
+                                      ': ' +
+                                      err.status +
+                                      '<pre>'
+                                    : ''
+                            }
                         </div>
                     </div>`
                 })
