@@ -19,7 +19,19 @@
         'movies', 'nyregion', 'obituaries', 'opinion', 'politics', 'realestate',
         'science', 'sports', 'technology', 'theater',
         't-magazine', 'travel', 'upshot', 'us', 'world',]
-
+    /**
+     * Sanitize and encode all HTML in a user-submitted string
+     * https://portswigger.net/web-security/cross-site-scripting/preventing
+     * @param  {String} str  The user-submitted string
+     * @return {String} str  The sanitized string
+     */
+    const snitiz = function (str) {
+        // return str.replace(/[^\w. ]/gi, function (c) {
+        //     return '&#' + c.charCodeAt(0) + ';' )}
+        let temp = document.createElement('div')
+        temp.textContent = str
+        return temp.innerHTML
+    }
     /**
      * Set the current page link to active
      *
@@ -60,9 +72,9 @@
         articleList.innerHTML =
                 oData.results
             .map(function (article) {
-                        const vaidSection = aSections.indexOf(article.section) >= 0 ? true : false
+                        const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0 ? true : false
                         let assembly = `<li>
-                                    <article class="news-item ${article.section}">
+                                    <article class="news-item ${snitiz(article.section)}">
                                         <header>`
                         // Account for multimedia not coming in as expeced.
                         if (
@@ -70,38 +82,47 @@
                             article.multimedia !== null &&
                             article.multimedia.length >= 3
                         ) {
-                        assembly +=         `<a href="${article.short_url}">
-                                                <img class="loading-bg" src="${article.multimedia[3].url}"
-                                                height="${article.multimedia[3].height}"
-                                                width="${article.multimedia[3].width}"
-                                                alt="${article.multimedia[3].copyright}" role="presentation"/>
+                        assembly += `<a href="${snitiz(article.short_url)}">
+                                                <img class="loading-bg" src="${
+                                                    snitiz(article.multimedia[3].url)
+                                                }"
+                                                height="${
+                                                    snitiz(article.multimedia[3].height)
+                                                }"
+                                                width="${
+                                                    snitiz(article.multimedia[3].width)
+                                                }"
+                                                alt="${
+                                                    snitiz(article.multimedia[3]
+                                                        .copyright)
+                                                }" role="presentation"/>
                                             </a>`
                         }
                         assembly += `</header>
                                         <section>
                                             <header>
                                                 <h3><a href="${
-                                                    article.short_url
+                                                    snitiz(article.short_url)
                                                 }">${article.title}</a></h3>
                                                   <p class="details">`
                 if (vaidSection) {
-                        assembly +=                `<a class="pill ${article.section}"
-                                                        href="https://www.nytimes.com/section/${article.section
+                        assembly +=                `<a class="pill ${snitiz(article.section)}"
+                                                        href="https://www.nytimes.com/section/${snitiz(article.section)
                                                     }">`
                 } else {
-                        assembly +=                 `<span class="pill ${article.section}">`
+                        assembly +=                 `<span class="pill ${snitiz(article.section)}">`
                 }
-                        assembly +=                 `${article.section}
+                        assembly +=                 `${snitiz(article.section)}
                                                     ${vaidSection ? '</a>' : '</span>'}
-                                                    ${article.byline ? '<span class="byline">' : ''}
-                                                    ${article.byline}
-                                                    ${article.byline ? '</span>' : ''}
+                                                    ${snitiz(article.byline) ? '<span class="byline">' : ''}
+                                                    ${snitiz(article.byline)}
+                                                    ${snitiz(article.byline) ? '</span>' : ''}
                                                 </p>
                                             </header>
                                             <div class="abstract">
-                                                <p >${article.abstract}
+                                                <p >${snitiz(article.abstract)}
                                                     <a href="${
-                                                        article.short_url
+                                                        snitiz(article.short_url)
                                                     }" class="read-more">[...more]</a>
                                                 </p>
                                             </div>
@@ -157,7 +178,16 @@
                         <h3>⥀.⥀ Oh Nooos!</h3>
                         <p>Bahh! Something went wrong....</p>
                         <div>
-    <pre>${err.stack}</pre>
+                        ${err.stack ? '<pre>' + err.stack + '<pre>' : ''}
+                        ${
+                            err.status
+                                ? '<pre>' +
+                                  err.statusText +
+                                  ': ' +
+                                  err.status +
+                                  '<pre>'
+                                : ''
+                        }
                         </div>
                     </div>`
                 })
