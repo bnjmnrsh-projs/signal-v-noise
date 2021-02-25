@@ -63,9 +63,7 @@
         getArticles(currentPg)
         buildNav()
 
-        addEventListener('hashchange', function (e) {
-            getArticles(currentPg)
-        })
+        addEventListener('hashchange', simpleRouter)
     }
 
     /**
