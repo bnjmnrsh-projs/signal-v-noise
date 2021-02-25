@@ -480,6 +480,7 @@ ul.newsfeed {
     body {
         max-width: 60em;
         padding-top: 5.5em;
+        margin-bottom: -5.5em;
     }
     .masthead {
         position: fixed;
