@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Signal-v-Noise",
+    "short_name": "Signal-Noise",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#e8e8e3",
-    "background_color": "#e8e8e3",
+    "theme_color": "#fefefb",
+    "background_color": "#fefefb",
     "display": "standalone"
 }
