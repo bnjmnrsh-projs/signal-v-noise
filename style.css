@@ -215,13 +215,13 @@ ul.newsfeed {
 }
 
 #newsfeed-wrap,
-.newsfeed {
+ul.newsfeed {
     scroll-behavior: smooth;
     transition: scroll 0.5s;
 }
 @media screen and (prefers-reduced-motion: reduce) {
     #newsfeed-wrap,
-    .newsfeed {
+    ul.newsfeed {
         scroll-behavior: smooth;
     }
 }
@@ -229,13 +229,12 @@ ul.newsfeed {
 /* News items */
 .news-item {
     position: relative;
-    z-index: 999;
     display: flex;
     flex-direction: row;
     padding: 0.8em;
     margin: 0.5em;
     border-radius: 3px;
-    background-color: var(--newsprint-dk);
+    /* background-color: var(--newsprint-dk); */
     transition: all ease 220ms;
     border: 1px var(--shadows) solid;
 }
@@ -554,19 +553,18 @@ ul.newsfeed {
         overflow-y: auto;
         height: 75vh;
     }
-    .newsfeed {
+    ul.newsfeed {
         overflow-x: hidden;
         display: flex;
         flex-flow: column wrap;
         max-height: 6500px;
-        overflow-y: scroll;
         max-width: 90vw;
         align-items: flex-start;
     }
 
     ul.newsfeed li {
         width: 50%;
-        flex: 2 auto;
+        /* flex: 2 auto; */
     }
 
     .news-item {
@@ -592,14 +590,14 @@ ul.newsfeed {
         width: 100%;
         height: auto;
     }
-    .newsfeed {
+    ul.newsfeed {
         width: 100%;
-        max-height: initial;
+        /* max-height: initial; */
         max-width: initial;
         overflow-y: visible;
     }
 
-    .newsfeed li {
+    ul.newsfeed li {
         width: 100% !important;
         flex-flow: column nowrap;
     }
@@ -608,18 +606,24 @@ ul.newsfeed {
 /* Articles loading styles */
 article.loading {
     justify-content: space-between;
+    flex: 1 1 auto;
+    flex-direction: row;
 }
+article.loading section.loading-bg,
 article.loading header.loading-bg {
-    width: 50px !important;
-    height: 50px;
     border-radius: 3px;
-    padding-right: 0.3em;
+    height: 50px;
+    padding: 0.3em;
+    background-color: var(--sundayreview-article);
+}
+
+article.loading header.loading-bg {
+    width: 50px;
+    margin: 0 0.8em 0 0;
 }
 article.loading section.loading-bg {
-    width: 90%;
-    height: 50px;
-    margin-left: 0.3em;
-    border-radius: 3px;
+    width: 80%;
+    margin: 0;
 }
 
 /* Loading animation */
