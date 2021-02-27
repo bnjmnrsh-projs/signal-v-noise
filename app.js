@@ -34,15 +34,6 @@
     }
 
     /**
-     * Smooth scroll to top of #newsfeed-wrap
-     *
-     */
-    function smoothScrollToTop() {
-        const container = document.querySelector('#newsfeed-wrap')
-        container.scrollTo(0, 0)
-    }
-
-    /**
      * Set the current page link to active
      *
      */
@@ -187,7 +178,7 @@
                 })
                 .then(function (data) {
                     buildArticles(data)
-                    smoothScrollToTop()
+                    document.querySelector('#newsfeed-wrap').scrollTo(0, 0)
                 })
                 .catch(function (err, data) {
                     loader.style.opacity = 0
@@ -227,6 +218,7 @@
             getArticles(e.target.dataset.section)
         }
     }
+
     addEventListener('click', navLink)
 
     simpleRouter()
