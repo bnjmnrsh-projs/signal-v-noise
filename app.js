@@ -218,7 +218,6 @@
             getArticles(e.target.dataset.section)
         }
     }
-
     addEventListener('click', navLink)
 
     simpleRouter()
