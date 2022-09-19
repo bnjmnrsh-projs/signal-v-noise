@@ -1,0 +1,134 @@
+/* News  items */
+
+body.loading .news-item > * {
+  filter: blur(3px);
+}
+
+.news-item {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5em;
+  padding: 0.8em;
+  transform: translateY(15px);
+  transition: transform 0.4s ease, opacity 0.6s ease;
+  border: 1px var(--shadows) solid;
+  border-radius: 3px;
+  opacity: 0;
+  gap: 1rem;
+  filter: brightness(0.97);
+
+  & > * {
+    transition: 0.2s filter linear;
+  }
+
+  &.loaded {
+    transform: translateY(0);
+    transition-delay: 0s;
+    opacity: 1;
+  }
+
+  &:hover {
+    box-shadow: var(--shadows) 1px 1px 5px;
+    filter: brightness(1);
+  }
+
+  & header {
+    width: 100%;
+
+    & > a {
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 3px;
+
+      /* aspect-ratio: 4 / 3; */
+    }
+
+    & img {
+      width:100%;
+      height: 100%;
+      border-radius: 3px;
+      background-color: var(--newsprint-dk);
+      box-shadow: var(--shadows) 2px 2px 2px;
+      object-fit: cover;
+    }
+  }
+
+  & h3 {
+    margin-top: 2px;
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 700;
+    -webkit-letter-spacing: 0.2px;
+    -moz-letter-spacing: 0.2px;
+    -ms-letter-spacing: 0.2px;
+    letter-spacing: 0.2px;
+    line-height: 1.4375rem;
+  }
+
+  & .details {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5em 0.5em;
+    border-bottom: 1px var(--shadows) solid;
+    font-size: small;
+  }
+
+  & .byline {
+    display: inline-block;
+    display: box;
+    width: fit-content;
+    margin-left: 0.2em;
+    padding-left: 0.4em;
+    overflow: hidden;
+    border-left: 1px var(--shadows) solid;
+    color: var(--charcoal);
+    font-style: italic;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  & .abstract {
+    min-height: 3rem;
+    margin: 0 0.7em;
+    line-height: 1.3em;
+
+    & p:first-of-type {
+      margin-block-start: 0.5em;
+    }
+
+    & p::first-letter {
+      font-size: ;
+    }
+  }
+
+  & header:empty {
+    /* display: none; */
+  }
+
+  & .news-content {
+    max-width: 30%;
+  }
+
+  & a.read-more,
+  & h3 a {
+    transition: color 0.6s ease;
+    color: var(--text-black);
+    -webkit-font-smoothing: antialiased;
+    text-decoration: none;
+  }
+
+  & a.read-more {
+    font-size: small;
+    font-style: italic;
+    text-decoration: underline;
+  }
+
+  & a.read-more:hover,
+  & h3 a:hover {
+    color: var(--charcoal);
+    text-decoration: none;
+  }
+}

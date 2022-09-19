@@ -1,0 +1,22 @@
+/* Pill styles */
+.pill {
+  display: inline-table;
+  min-width: 20px;
+  margin-right: 0.2em;
+  padding: 0.3em 0.6em 0;
+  transition: color 0.4s ease;
+  border-radius: 19.3px;
+  background-color: var(--charcoal);
+  box-shadow: var(--shadows) 1px 1px 1px;
+  color: var(--newsprint);
+  font-size: x-small;
+  line-height: 1.2em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &:hover {
+    filter: brightness(120%) saturate(1.3);
+  }
+}

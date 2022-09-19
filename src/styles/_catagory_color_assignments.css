@@ -1,0 +1,316 @@
+:root {
+  --text-black: hsl(199deg 29% 24%);
+
+  /* --text-black: hsl(200, 33%, 4%); */
+  --newsprint: hsl(60deg 71% 99%);
+  --newsprint-dk: hsl(60deg 8% 90%);
+  --charcoal: hsl(224deg 10% 29% / 100%);
+  --shadows: hsl(180deg 3% 55% / 40%);
+
+  /* Sass would make this easier (◔_◔) */
+  --arts-pill: hsl(327deg 32% 46%);
+  --arts-article: hsl(327deg 24% 31% / 3%);
+  --automobiles-pill: hsl(178deg 41% 36% / 100%);
+  --automobiles-article: hsl(178deg 41% 36% / 3%);
+  --books-pill: hsl(2deg 24% 28% / 100%); /* hsl(199, 23%, 16%); */
+  --books-article: hsl(2deg 24% 28% / 3%);
+  --business-pill: hsl(253deg 28% 41%);
+  --business-article: hsl(253deg 28% 41% / 3%);
+  --fashion-pill: rgb(189 29 66);
+  --fashion-article: hsl(347deg 30% 72% / 3%);
+  --food-pill: rgb(145 60 142);
+  --food-article: hsl(302deg 24% 57% / 3%);
+  --health-pill: hsl(38deg 73% 60% / 100%);
+  --health-article: hsl(38deg 73% 60% / 3%);
+  --home-pill: hsl(221deg 76% 38% / 100%);
+  --home-article: hsl(221deg 76% 38% / 3%);
+  --insider-pill: hsl(208deg 87% 44% / 100%);
+  --insider-article: hsl(208deg 87% 44% / 3%);
+  --magazine-pill: rgb(78 88 30);
+  --magazine-article: hsl(70deg 36% 54% / 3%);
+  --movies-pill: hsl(120deg 48% 62% / 100%);
+  --movies-article: hsl(120deg 48% 62% / 3%);
+  --nyregion-pill: hsl(47deg 65% 63% / 100%);
+  --nyregion-article: hsl(47deg 65% 63% / 3%);
+  --obituaries-pill: hsl(224deg 10% 29% / 100%);
+  --obituaries-article: hsl(224deg 10% 29% / 3%);
+  --opinion-pill: hsl(51deg 88% 58% / 100%);
+  --opinion-article: hsl(51deg 88% 58% / 3%);
+  --politics-pill: rgb(81 91 72);
+  --politics-article: hsl(91deg 11% 61% / 3%);
+  --realestate-pill: hsl(233deg 27% 36% / 100%);
+  --realestate-article: hsl(233deg 27% 36% / 3%);
+  --science-pill: rgb(41 108 49);
+  --science-article: hsl(127deg 44% 37% / 3%);
+  --sports-pill: rgb(18 94 175);
+  --sports-article: hsl(211deg 91% 52% / 3%);
+  --sundayreview-pill: rgb(147 79 0);
+  --sundayreview-article: hsl(32deg 76% 68% / 3%);
+  --technology-pill: hsl(303deg 43% 41%);
+  --technology-article: hsl(303deg 43% 41% / 3%);
+  --theater-pill: rgb(18 124 124);
+  --theater-article: hsl(180deg 73% 43% / 3%);
+  --t-magazine-pill: hsl(25deg 100% 37% / 100%);
+  --t-magazine-article: hsl(25deg 100% 37% / 3%);
+  --travel-pill: hsl(47deg 65% 63% / 100%);
+  --travel-article: hsl(47deg 65% 63% / 3%);
+  --upshot-pill: hsl(355deg 67% 26% / 100%);
+  --upshot-article: hsl(355deg 67% 26% / 3%);
+  --us-pill: hsl(225deg 56% 21% / 100%);
+  --us-article: hsl(225deg 34% 23% / 3%);
+  --world-pill: hsl(120deg 35% 36% / 100%);
+  --world-article: hsl(120deg 35% 36% / 3%);
+}
+
+/* Color styles for news catagories */
+.news-item.arts {
+  background-color: var(--arts-article);
+}
+
+.pill.arts {
+  background-color: var(--arts-pill);
+  color: var(--newsprint);
+}
+
+.news-item.automobiles {
+  background-color: var(--automobiles-article);
+}
+
+.pill.automobiles {
+  background-color: var(--automobiles-pill);
+  color: var(--newsprint);
+}
+
+.news-item.books {
+  background-color: var(--books-article);
+}
+
+.pill.books {
+  background-color: var(--books-pill);
+  color: var(--newsprint);
+}
+
+.news-item.business {
+  background-color: var(--business-article);
+}
+
+.pill.business {
+  background-color: var(--business-pill);
+  color: var(--newsprint);
+}
+
+.news-item.style,
+.news-item.fashion {
+  background-color: var(--fashion-article);
+}
+
+.pill.style,
+.pill.fashion {
+  background-color: var(--fashion-pill);
+  color: var(--newsprint);
+}
+
+.news-item.dining,
+.news-item.food {
+  background-color: var(--food-article);
+}
+
+.pill.dining,
+.pill.food {
+  background-color: var(--food-pill);
+  color: var(--newsprint);
+}
+
+.news-item.well,
+.news-item.health {
+  background-color: var(--health-article);
+}
+
+.pill.well,
+.pill.health {
+  background-color: var(--health-pill);
+  color: var(--charcoal);
+}
+
+.news-item.home {
+  background-color: var(--home-article);
+}
+
+.pill.home {
+  background-color: var(--home-pill);
+  color: var(--newsprint);
+}
+
+.news-item.insider {
+  background-color: var(--insider-article);
+}
+
+.pill.insider {
+  background-color: var(--insider-pill);
+  color: var(--newsprint);
+}
+
+.news-item.magazine {
+  background-color: var(--magazine-article);
+}
+
+.pill.magazine {
+  background-color: var(--magazine-pill);
+  color: var(--newsprint);
+}
+
+.news-item.movies {
+  background-color: var(--movies-article);
+}
+
+.pill.movies {
+  background-color: var(--movies-pill);
+  color: var(--charcoal);
+}
+
+.news-item.nyregion {
+  background-color: var(--nyregion-article);
+}
+
+.pill.nyregion {
+  background-color: var(--nyregion-pill);
+  color: var(--charcoal);
+}
+
+.news-item.obituaries {
+  background-color: var(--obituaries-article);
+}
+
+.pill.obituaries {
+  background-color: var(--obituaries-pill);
+  color: var(--newsprint);
+}
+
+.news-item.education,
+.news-item.opinion {
+  background-color: var(--opinion-article);
+}
+
+.pill.education,
+.pill.opinion {
+  background-color: var(--opinion-pill);
+  color: var(--charcoal);
+}
+
+.news-item.politics {
+  background-color: var(--politics-article);
+}
+
+.pill.politics {
+  background-color: var(--politics-pill);
+  color: var(--newsprint);
+}
+
+.news-item.realestate {
+  background-color: var(--realestate-article);
+}
+
+.pill.realestate {
+  background-color: var(--realestate-pill);
+  color: var(--newsprint);
+}
+
+.news-item.climate,
+.news-item.science {
+  background-color: var(--science-article);
+}
+
+.pill.climate,
+.pill.science {
+  background-color: var(--science-pill);
+  color: var(--newsprint);
+}
+
+.news-item.sports {
+  background-color: var(--sports-article);
+}
+
+.pill.sports {
+  background-color: var(--sports-pill);
+  color: var(--newsprint);
+}
+
+.news-item.podcasts,
+.news-item.sundayreview {
+  background-color: var(--sundayreview-article);
+}
+
+.pill.podcasts,
+.pill.sundayreview {
+  background-color: var(--sundayreview-pill);
+  color: var(--newsprint);
+}
+
+.news-item.technology {
+  background-color: var(--technology-article);
+}
+
+.pill.technology {
+  background-color: var(--technology-pill);
+  color: var(--newsprint);
+}
+
+.news-item.theater {
+  background-color: var(--theater-article);
+}
+
+.pill.theater {
+  background-color: var(--theater-pill);
+  color: var(--newsprint);
+}
+
+.news-item.t-magazine {
+  background-color: var(--magazine-article);
+}
+
+.pill.t-magazine {
+  background-color: var(--t-magazine-pill);
+  color: var(--newsprint);
+}
+
+.news-item.travel {
+  background-color: var(--travel-article);
+}
+
+.pill.travel {
+  background-color: var(--travel-pill);
+  color: var(--charcoal);
+}
+
+.news-item.at-home,
+.news-item.briefing,
+.news-item.upshot {
+  background-color: var(--upshot-article);
+}
+
+.pill.at-home,
+.pill.briefing,
+.pill.upshot {
+  background-color: var(--upshot-pill);
+  color: var(--newsprint);
+}
+
+.news-item.us {
+  background-color: var(--us-article);
+}
+
+.pill.us {
+  background-color: var(--us-pill);
+  color: var(--newsprint);
+}
+
+.news-item.espanol,
+.news-item.world {
+  background-color: var(--world-article);
+}
+
+.pill.espanol,
+.pill.world {
+  background-color: var(--world-pill);
+  color: var(--newsprint);
+}

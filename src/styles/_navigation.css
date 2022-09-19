@@ -1,0 +1,25 @@
+/* Navigation */
+.noise {
+  align-items: flex-end;
+  margin: 0 auto;
+  padding: 0.6em 3.3em;
+  border-bottom: 1px var(--shadows) solid;
+
+  & ul {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.2em;
+    justify-content: center;
+    margin: 0.8em 0;
+    padding: 0;
+  }
+
+  & li {
+    list-style: none;
+    text-decoration: none;
+
+    &::before {
+      content: '\200B'; /* accesability, thanks Scott O’Hara */
+    }
+  }
+}

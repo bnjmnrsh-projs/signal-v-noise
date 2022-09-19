@@ -1,0 +1,31 @@
+#stt {
+  display: block;
+  display: flex;
+  visibility: hidden;
+  position: fixed;
+  right: calc(50vw - 16px);
+  bottom: 4.3vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  overflow: none;
+  transform-origin: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+  border: none;
+  border-radius: 100px;
+  outline: 0;
+  opacity: 0;
+  box-shadow: 0 3px 10px var(--shadows);
+  color: inherit;
+  text-decoration: none;
+  cursor: grab;
+  -webkit-tap-highlight-color: none;
+
+  &.-is-revealed {
+    visibility: visible;
+    opacity: 1;
+    background-color: var(--t-magazine-pill, red);
+  }
+}

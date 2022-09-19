@@ -1,0 +1,43 @@
+/* Skeleton screens for loading articles styles */
+article.loading {
+  flex: 1 1 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 450px;
+  opacity: 1;
+}
+
+/* Loading animation */
+.loading-bg {
+  animation: loading 59s ease infinite;
+  animation: loading 10s ease infinite;
+  background: linear-gradient(
+    89deg,
+    var(--newsprint-dk, salmon),
+    transparent,
+    transparent,
+    var(--newsprint-dk, salmon),
+    transparent,
+    transparent,
+    var(--newsprint-dk, salmon),
+    transparent,
+    transparent
+  );
+  background-size: 300% 200%;
+}
+
+article.loading section.loading-bg,
+article.loading header.loading-bg {
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--sundayreview-article);
+}
+
+article.loading header.loading-bg {
+  width: 100%;
+}
+
+article.loading section.loading-bg {
+  width: 45%;
+  margin: 0;
+}

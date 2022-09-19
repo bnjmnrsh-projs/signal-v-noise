@@ -1,0 +1,25 @@
+html {
+  height: 100vw;
+  transition: scroll 0.5s;
+  font-family: Newsreader, serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 88%;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: var(--newsprint);
+  color: var(--text-black);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  margin-top: 6.5em;
+
+  @nest .scrolled & {
+    margin-top: 1.5em;
+  }
+}

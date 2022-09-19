@@ -1,0 +1,32 @@
+/* Shadows for overflow container */
+.has-overflowY {
+  /* padding-right: 0.5rem; */
+  overflow-y: auto;
+  background: linear-gradient(to top, transparent, var(--newsprint) 70%),
+    linear-gradient(to bottom, transparent, var(--newsprint) 70%),
+    radial-gradient(farthest-side at 50% 0%, var(--shadows), transparent),
+    radial-gradient(farthest-side at 50% 100%, var(--shadows), transparent);
+  background-attachment: fixed, fixed, scroll, scroll;
+  background-repeat: no-repeat;
+  background-position: top center, bottom center, top center, bottom center;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+
+  &::-webkit-scrollbar {
+    width: 0.7rem;
+    appearance: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 3px solid var(--newsprint-dk);
+    border-radius: 0;
+    border-radius: 100px;
+    background-color: var(--text-black);
+    background-color: var(--shadows);
+  }
+
+  &::-webkit-scrollbar-track {
+    margin: 0.5rem 0;
+    border-radius: 100px;
+    background-color: var(--newsprint-dk);
+  }
+}
