@@ -1,0 +1,12 @@
+#build
+#docs
+#dist
+logs
+*.log
+npm-debug.log*
+.npm
+node_modules
+.node_repl_history
+.env
+.parcel-cache
+.DS_Store
