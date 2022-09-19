@@ -139,6 +139,13 @@
       max-width: 100%;
     }
   }
+
+  .scroll-to-top.-is-revealed {
+    right: 5vw;
+    bottom: 5vw;
+    width: 90vw;
+    height: 55px;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -184,13 +191,6 @@
     & .details {
       flex-direction: row;
       gap: 0.25em;
-    }
-
-    & #stt.-is-revealed {
-      right: 5vw;
-      bottom: 5vw;
-      width: 90vw;
-      height: 55px;
     }
   }
 }
