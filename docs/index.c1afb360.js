@@ -142,12 +142,12 @@
       this[globalName] = mainExports;
     }
   }
-})({"jVgwi":[function(require,module,exports) {
+})({"7IKPd":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
-var HMR_HOST = "0.0.0.0";
+var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SECURE = false;
+var HMR_SECURE = true;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 module.bundle.HMR_BUNDLE_ID = "d8d61997c1afb360";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
@@ -955,6 +955,6 @@ const Toast = function(options = {}) {
     return Constructor;
 }();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jVgwi","8lRBv"], "8lRBv", "parcelRequire2c69")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["7IKPd","8lRBv"], "8lRBv", "parcelRequire2c69")
 
 //# sourceMappingURL=index.c1afb360.js.map
