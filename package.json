@@ -2,7 +2,6 @@
   "name": "signal-v-noise",
   "version": "1.0.0",
   "description": "Code kata using NYT api, Cloudflare Workers, CSS Grid",
-  "main": "app.js",
   "scripts": {
     "start": "parcel src/index.html --dist-dir docs --https",
     "build": "parcel build src/index.html --dist-dir docs --public-url ./"
@@ -23,6 +22,9 @@
     }
   },
   "browserslist": "last 3 years >= 0.5% not op_mini all not ie 11 not dead",
+  "dependencies": {
+    "@swc/helpers": "^0.4.11"
+  },
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.7.0",
     "@parcel/transformer-webmanifest": "^2.7.0",
