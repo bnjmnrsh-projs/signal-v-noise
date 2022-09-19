@@ -20,9 +20,6 @@ export const buildArticles = function (oData) {
                     const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0
 
                     if (!vaidSection) {
-                        // console.error ('invalid article type')
-                        // console.log(article)
-
                         if(article.section === "admin") return '' // remove empty 'admin' sections
                     }
 
@@ -97,11 +94,9 @@ export const buildArticles = function (oData) {
                                             </header>
                                             <div class="abstract">`
                     if (article.abstract) {
-                        assembly += `<p class="hyphens">${snitiz(
-                          article?.abstract
-                        )}
-                                                    <a href="${snitiz(article.short_url)}" title="${snitiz( article.title)}" class="read-more">[...more]</a>
-                                                </p>`
+                        assembly += `<p class="hyphens">${snitiz(article?.abstract)}
+                                        <a href="${snitiz(article.short_url)}" title="${snitiz( article.title)}" class="read-more">[...more]</a>
+                                      </p>`
                     }
                     assembly += `</div>
                                         </section>
