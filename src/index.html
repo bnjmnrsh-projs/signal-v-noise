@@ -35,13 +35,13 @@
     <link rel="manifest" href="./site.webmanifest" />
 
     <link href="./styles/styles.css" rel="stylesheet" />
-    <script type="module" src="./js/app.js" defer />
+    <script type="module" src="./js/app.js" defer></script>
   </head>
   <body>
     <div id="loader" class="loader"></div>
     <header class="masthead">
       <a href="/signal-v-noise/">
-        <h1>Signal - v - Noise</h1>
+        <h1 id="head">Signal - v - Noise</h1>
         <h2 class="strapline">
           The gold standard of information hosepipes<br />
           courtesy of that Gray Lady, the New York Times.
@@ -83,7 +83,7 @@
         </ul>
       </div>
     </div>
-    <a id="stt" class="scroll-to-top" href="#">
+    <a id="stt" class="scroll-to-top" href="#head">
       <span class="sr-only">Scroll to top of page.</span>
       <svg
         class="icon-chevron-up"

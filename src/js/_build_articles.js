@@ -18,7 +18,6 @@ export const buildArticles = function (oData) {
             oData.results
                 .map(function (article) {
                     const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0
-
                     if (!vaidSection) {
                         if(article.section === "admin") return '' // remove empty 'admin' sections
                     }

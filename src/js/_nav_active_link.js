@@ -27,6 +27,9 @@ export const navActiveLink = function (navLink) {
  */
 export const navLink = function (e) {
   if ('section' in e.target.dataset) {
+    document
+      .querySelector('#app')
+      .setAttribute('data-section', e.target.dataset.section)
     e.target.classList.add('active')
   }
 }

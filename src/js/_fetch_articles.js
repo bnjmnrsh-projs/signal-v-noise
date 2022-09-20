@@ -11,10 +11,11 @@ const API = 'https://api.nytimes.com/svc/topstories/v2/'
 export const fetchArticles = function (sSecton = 'home') {
   const loader = document.querySelector('#loader')
   loader.style.opacity = 1
-  document.body.classList.add('loading')
   if (!navigator.onLine) return
 
   const articles = new Promise(function (resolve, reject) {
+    document.body.classList.add('loading')
+
     fetch(API + sSecton + KEY)
       .then(function (resp) {
         if (resp.ok) {
@@ -37,19 +38,19 @@ export const fetchArticles = function (sSecton = 'home') {
         const errors = `<div id="ohnos">
                         <h3><span aria-hidden="true">⥀.⥀ <br/></span>Oh Nooos!</h3>
                         <p class="sr-only">There has been a crittical error:</p>
-                        <div>
-                            ${err.stack ? '<pre>' + err.stack + '<pre>' : ''}
-                            ${
-                              err.status
-                                ? '<pre>' +
-                                  err.statusText +
-                                  ': ' +
-                                  err.status +
-                                  '<pre>'
-                                : ''
-                            }
-                        </div>
-                    </div>`
+                          <div>
+                              ${err.stack ? '<pre>' + err.stack + '<pre>' : ''}
+                              ${
+                                err.status
+                                  ? '<pre>' +
+                                    err.statusText +
+                                    ': ' +
+                                    err.status +
+                                    '<pre>'
+                                  : ''
+                              }
+                          </div>
+                        </div>`
         if (articles) {
           articles.innerHTML = errors
         }
