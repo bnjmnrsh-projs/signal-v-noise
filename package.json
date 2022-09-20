@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Code kata using NYT api, Cloudflare Workers, CSS Grid",
   "scripts": {
-    "start": "parcel src/index.html --dist-dir docs --https",
+    "start": "parcel src/index.html --dist-dir docs",
     "build": "parcel build src/index.html --dist-dir docs --public-url ./"
   },
   "repository": {
