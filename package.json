@@ -1,7 +1,7 @@
 {
   "name": "signal-v-noise",
   "version": "1.0.0",
-  "description": "Code kata using NYT api, Cloudflare Workers, CSS Grid",
+  "description": "Code kata using NYT api, Cloudflare Workers, localStorage and a Service Worker",
   "scripts": {
     "start": "parcel src/index.html --dist-dir docs",
     "build": "parcel build src/index.html --dist-dir docs --public-url ./"
@@ -51,6 +51,8 @@
     "stylelint-high-performance-animation": "^1.6.0",
     "stylelint-no-unsupported-browser-features": "^5.0.4",
     "stylelint-order": "^5.0.0",
-    "stylelint-use-nesting": "^4.0.0"
+    "stylelint-use-nesting": "^4.0.0",
+    "vitest": "^0.23.4",
+    "wrangler": "^2.1.4"
   }
 }
