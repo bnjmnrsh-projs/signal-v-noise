@@ -1,4 +1,4 @@
-/* global Response addEventListener fetch NYT_API */
+/* global Response addEventListener fetch NYT_API NYT_API_KEY */
 
 /**
  * Cloudflare Worker middleman API for Signal-V-Noise
@@ -17,7 +17,11 @@
 //
 
 // A named array of endpoints to fetch
-const aToFetch = [['top_stories', 'https://api.nytimes.com/svc/topstories/v2/']]
+const aToFetch = [['top_stories', NYT_API]]
+
+// Allowed origins whitelist, a null origin indicates a wrangler or worker .dev request context.
+// https://community.cloudflare.com/t/how-to-check-if-worker-is-running-in-wrangler-dev/421837
+const aAllowed = ['https://bnjmnrsh-projs.github.io', null]
 
 // Debugging/Workers: set to true to disable origin whitelist checks
 const bDBG = false
@@ -28,12 +32,7 @@ const bDBG = false
 const nTTL = 1800 // (seconds), 30 min
 const nCacheCont = new Date(new Date().getTime() + 10 * 60000) // 25 min
 const bCacheEverything = true
-
-// Allowed origins whitelist, a null origin indicates a wrangler or worker .dev request context.
-const aAllowed = ['https://bnjmnrsh-projs.github.io', null]
-
-// Number of times to retry fetch on failure
-const nFetchRetry = 3
+const nFetchRetry = 3 // Number of times to retry fetch
 
 // Response headers
 // cf: https://developers.cloudflare.com/workers/runtime-apis/request#requestinitcfproperties
@@ -65,7 +64,7 @@ const assembleURL = function (baseURL, searchParams) {
 
   if (searchParams.get('section')) {
     const section = searchParams.get('section').toString()
-    fetchURL = `${baseURL}${section}.json?api-key=${NYT_API}`
+    fetchURL = `${baseURL}${section}.json?api-key=${NYT_API_KEY}`
   }
   // extend to map to other API URL patterns
   return fetchURL
