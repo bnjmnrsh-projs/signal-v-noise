@@ -5,5 +5,5 @@ workers_dev = true
 compatibility_date = "2022-09-20"
 
 # The necessary secrets are:
-# NYT_API
+# NYT_TOP_STORIES_API
 # NYT_API_KEY

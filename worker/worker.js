@@ -1,4 +1,4 @@
-/* global Response addEventListener fetch NYT_API NYT_API_KEY */
+/* global Response addEventListener fetch NYT_TOP_STORIES_API NYT_API_KEY */
 
 /**
  * Cloudflare Worker middleman API for Signal-V-Noise
@@ -17,7 +17,7 @@
 //
 
 // A named array of endpoints to fetch
-const aToFetch = [['top_stories', NYT_API]]
+const aToFetch = [['top_stories', NYT_TOP_STORIES_API]]
 
 // Allowed origins whitelist, a null origin indicates a wrangler or worker .dev request context.
 // https://community.cloudflare.com/t/how-to-check-if-worker-is-running-in-wrangler-dev/421837
