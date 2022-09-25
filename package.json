@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Code kata using NYT api, Cloudflare Workers, localStorage and a Service Worker",
   "scripts": {
-    "start": "parcel src/index.html --dist-dir docs",
-    "build": "parcel build src/index.html --dist-dir docs --public-url ./ --port 1234"
+    "start": "parcel src/index.html --dist-dir docs --port 1234",
+    "build": "parcel build src/index.html --dist-dir docs --public-url ./"
   },
   "repository": {
     "type": "git",
