@@ -28,4 +28,10 @@
     opacity: 1;
     background-color: var(--t-magazine-pill, red);
   }
+
+  &:focus,
+  &:focus-visible {
+    outline: 3px dotted var(--t-magazine-pill);
+    outline-offset: 5px;
+  }
 }
