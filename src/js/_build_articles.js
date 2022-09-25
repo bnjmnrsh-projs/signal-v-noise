@@ -14,7 +14,6 @@ export const buildArticles = function (oData) {
   loader.style.opacity = 1
   navActiveLink()
 
-  console.log(oData.results)
   // prettier-ignore
   articleList.innerHTML =
             oData.top_stories.results
