@@ -10,7 +10,7 @@
 }
 
 .newsfeed {
-  min-width: 25em;
+  /* min-width: 25em; */
   margin: 0.5rem 0.3rem 2rem 0;
   padding: 0;
   list-style-type: none;
