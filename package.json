@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/bnjmnrsh-projs/signal-v-noise/issues"
   },
-  "homepage": "https://github.com/bnjmnrsh-projs/signal-v-noise#readme",
+  "homepage": "https://github.com/bnjmnrsh-projs/signal-v-noise",
   "@parcel/transformer-css": {
     "drafts": {
       "nesting": true
@@ -40,7 +40,7 @@
     "parcel": "^2.7.0",
     "parcel-reporter-static-files-copy": "^1.4.0",
     "postcss": "^8.4.16",
-    "postcss-html": "^1.5.0",
+    "postcss-banner": "^4.0.1",
     "prettier": "^2.7.1",
     "stylelint": "^14.12.0",
     "stylelint-config-html": "^1.1.0",
