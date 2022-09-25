@@ -3,6 +3,7 @@
     "@parcel/config-default"
   ],
   "reporters": [
+    "...",
     "parcel-reporter-static-files-copy"
   ]
 }
