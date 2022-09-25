@@ -1,0 +1,8 @@
+name = "signal-v-noise-worker"
+main = "./worker.js"
+account_id = "f60bbee010ecca0652fb3fa11fb8e268"
+workers_dev = true
+compatibility_date = "2022-09-20"
+
+# The necessary secrets are:
+# NYT_API

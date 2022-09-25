@@ -1,6 +1,6 @@
 # A simple middleman API boilerplate for Cloudflare Workers
 
-A recipe for a light middleman API using [Cloudflare Workers](https://blog.Cloudflare.com/introducing-Cloudflare-workers/), which includes whitelisting origin requests, fetching multiple third party endpoints, caching, and a single collated JSON response. PR's welcome.
+A recipe for a lite middleman API using [Cloudflare Workers](https://blog.Cloudflare.com/introducing-Cloudflare-workers/), which includes whitelisting origin requests, fetching multiple third party endpoints, caching, and a single collated JSON response. PR's welcome.
 
 ## Why?
 
