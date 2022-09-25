@@ -13,9 +13,11 @@ export const buildArticles = function (oData) {
   const loader = document.querySelector('#loader')
   loader.style.opacity = 1
   navActiveLink()
+
+  console.log(oData.results)
   // prettier-ignore
   articleList.innerHTML =
-            oData.results
+            oData.top_stories.results
                 .map(function (article) {
                     const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0
                     if (!vaidSection) {

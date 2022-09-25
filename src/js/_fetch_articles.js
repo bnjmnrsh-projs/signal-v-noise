@@ -1,7 +1,5 @@
 import { buildArticles } from './_build_articles'
-
-const KEY = '.json?api-key=' + 'phTGaNCB3ipdmBV1gZ1OlGVX6rne7i8Z'
-const API = 'https://api.nytimes.com/svc/topstories/v2/'
+const API = 'https://signal-v-noise-worker.bnjmnrsh.workers.dev'
 
 /**
  * Gets the articles, defauts to 'home' section
@@ -16,17 +14,18 @@ export const fetchArticles = function (sSecton = 'home') {
   const articles = new Promise(function (resolve, reject) {
     document.body.classList.add('loading')
 
-    fetch(API + sSecton + KEY)
+    // fetch(API + sSecton + KEY)
+    fetch(API + '?section=' + sSecton)
       .then(function (resp) {
+        document.body.classList.remove('loading')
         if (resp.ok) {
-          document.body.classList.remove('loading')
           return resp.json()
         } else {
-          document.body.classList.remove('loading')
           throw resp
         }
       })
       .then(function (data) {
+        console.log(data)
         buildArticles(data)
         document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
         return data
