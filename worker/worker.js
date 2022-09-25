@@ -21,7 +21,11 @@ const aToFetch = [['top_stories', NYT_TOP_STORIES_API]]
 
 // Allowed origins whitelist, a null origin indicates a wrangler or worker .dev request context.
 // https://community.cloudflare.com/t/how-to-check-if-worker-is-running-in-wrangler-dev/421837
-const aAllowed = ['https://bnjmnrsh-projs.github.io', null]
+const aAllowed = [
+  'https://bnjmnrsh-projs.github.io',
+  'http://localhost:1234',
+  null
+]
 
 // Debugging/Workers: set to true to disable origin whitelist checks
 const bDBG = false
