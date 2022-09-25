@@ -18,8 +18,16 @@ body {
 
 .app {
   margin-top: 6.5em;
+  transition: margin .1s  ease;
 
   @nest .scrolled & {
     margin-top: 1.5em;
   }
 }
+
+:focus,
+:focus-visible {
+  outline: var(--text-black) dotted 3px;
+  outline-width: 2px;
+}
+
