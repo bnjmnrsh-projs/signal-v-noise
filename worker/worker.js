@@ -68,7 +68,7 @@ const fConstructHeaders = function (currentTime) {
     // CF response headers
     // https://developers.cloudflare.com/workers/runtime-apis/request#requestinitcfproperties
     cf: {
-      cacheTtl: `${cCaching.nTTL}`,
+      cacheTtlByStatus: `{ "200-299": ${cCaching.nTTL}, "400-499": -1, "500-599": -1 }`,
       cacheEverything: `${cCaching.bCacheEverything}`
     }
   }
