@@ -39,6 +39,7 @@ const nFetchRetry = 3 // Number of times to retry fetch
 
 /**
  * Set up headers with desired caching
+ * https://simonhearne.com/2022/caching-header-best-practices/
  *
  * https://developers.cloudflare.com/workers/learning/how-the-cache-works
  * nTTL (Time To Live) the length of time for Cloudflare to perserve a cached value (Time To Live)
@@ -61,8 +62,7 @@ const fConstructHeaders = function (currentTime) {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET',
       'Access-Control-Allow-Headers': '*',
-      'Cache-Control': 'public',
-      Expires: `${cCaching.nExpires}`,
+      'Cache-Control': `public, max-age=${cCaching.nTTL}`,
       'content-type': 'application/json;charset=UTF-8'
     },
     // CF response headers
