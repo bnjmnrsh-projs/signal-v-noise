@@ -52,8 +52,8 @@ const nFetchRetry = 3 // Number of times to retry fetch
  */
 const fConstructHeaders = function (currentTime) {
   const cCaching = {
-    nTTL: 1800, // (seconds)
-    nExpires: new Date(currentTime + 10 * 100000),
+    nTTL: 300, // (seconds)
+    nExpires: new Date(currentTime + 10 * 100000), // not currently used
     bCacheEverything: true
   }
 
