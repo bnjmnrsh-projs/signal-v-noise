@@ -28,15 +28,27 @@ const aAllowed = [
   'http://127.0.0.1/1234',
   null
 ]
-
 const bDBG = false // Debugging/Workers: set to true to disable origin whitelist checks
 const nFetchRetry = 3 // Number of times to retry fetch
 
-// Caching settings:
-// https://developers.cloudflare.com/workers/learning/how-the-cache-works
-// nTTL (Time To Live) the length of time for Cloudflare to perserve a cached value (Time To Live)
-// Date must be called inside the fetch callback to give correct time.
-// https://stackoverflow.com/questions/58491003/how-to-get-the-current-date-in-a-cloudflares-worker
+// See fConstructHeaders for caching settins.
+
+//
+// METHODS
+//
+
+/**
+ * Set up headers with desired caching
+ *
+ * https://developers.cloudflare.com/workers/learning/how-the-cache-works
+ * nTTL (Time To Live) the length of time for Cloudflare to perserve a cached value (Time To Live)
+ *
+ * Date must be called inside the fetch callback to give correct time.
+ * https://stackoverflow.com/questions/58491003/how-to-get-the-current-date-in-a-cloudflares-worker
+ *
+ * @param number currentTime
+ * @returns object hearder object
+ */
 const fConstructHeaders = function (currentTime) {
   const cCaching = {
     nTTL: 1800, // (seconds)
@@ -61,10 +73,6 @@ const fConstructHeaders = function (currentTime) {
     }
   }
 }
-
-//
-// METHODS
-//
 
 /**
  * Assmbles the url string to fetch.
