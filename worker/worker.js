@@ -28,30 +28,38 @@ const aAllowed = [
   null
 ]
 
-// Debugging/Workers: set to true to disable origin whitelist checks
-const bDBG = false
+const bDBG = false // Debugging/Workers: set to true to disable origin whitelist checks
+const nFetchRetry = 3 // Number of times to retry fetch
 
 // Caching settings:
 // https://developers.cloudflare.com/workers/learning/how-the-cache-works
 // nTTL (Time To Live) the length of time for Cloudflare to perserve a cached value (Time To Live)
-const nTTL = 1800 // (seconds), 30 min
-const nCacheCont = new Date(new Date().getTime() + 10 * 60000) // 25 min
-const bCacheEverything = true
-const nFetchRetry = 3 // Number of times to retry fetch
+// Date must be called inside the callback function to give the correct time.
+// https://stackoverflow.com/questions/58491003/how-to-get-the-current-date-in-a-cloudflares-worker
+const fConstructHeaders = function (currentTime) {
+  const cCaching = {
+    nTTL: 1800, // (seconds)
+    nExpires: new Date(currentTime + 10 * 100000),
+    bCacheEverything: true
+  }
+  return {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET',
+      'Access-Control-Allow-Headers': '*',
+      'Cache-Control': 'public',
+      Expires: `${cCaching.nExpires}`,
+      'content-type': 'application/json;charset=UTF-8'
+    },
+    cf: {
+      cacheTtl: `${cCaching.nTTL}`,
+      cacheEverything: `${cCaching.bCacheEverything}`
+    }
+  }
+}
 
 // Response headers
 // cf: https://developers.cloudflare.com/workers/runtime-apis/request#requestinitcfproperties
-const oInit = {
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET',
-    'Access-Control-Allow-Headers': '*',
-    'Cache-Control': 'public',
-    Expires: `${nCacheCont}`,
-    'content-type': 'application/json;charset=UTF-8'
-  },
-  cf: { cacheTtl: `${nTTL}`, cacheEverything: `${bCacheEverything}` }
-}
 
 //
 // METHODS
@@ -159,7 +167,7 @@ const fFetchWithRetry = async function (sUrl, oOptions, n) {
   try {
     return await fRequest(sUrl, oOptions)
   } catch (oError) {
-    console.log('error', oError)
+    console.error('error', oError)
     if (oError.status) throw oError // recieved a reply from server, pass it on
     if (n <= 1) throw oError // out of tries
     console.warn(`fFetchWithRetry: Retrying fetch request: ${n}`)
@@ -194,11 +202,10 @@ const fCollated = function (obj) {
  * @param {object} oEvent
  * @returns {string} stringified JSON
  */
-const fHandleRequest = async function (oEvent) {
+const fHandleRequest = async function (oEvent, currentTime) {
   const oRequest = oEvent.request
   const { searchParams } = new URL(oRequest.url)
-
-  console.log('origin', oRequest.headers.get('origin'))
+  const oInit = fConstructHeaders(currentTime)
 
   if (bDBG === false && !aAllowed.includes(oRequest.headers.get('origin'))) {
     // If we're not debugging, and origin domain is not whitelisted, return 403
@@ -257,5 +264,6 @@ const fHandleRequest = async function (oEvent) {
 
 // Set an event listener for the fetch event.
 addEventListener('fetch', (oEvent) => {
-  return oEvent.respondWith(fHandleRequest(oEvent))
+  const currentTime = new Date().getTime()
+  return oEvent.respondWith(fHandleRequest(oEvent, currentTime))
 })
