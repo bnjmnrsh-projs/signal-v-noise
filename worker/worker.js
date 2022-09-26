@@ -8,7 +8,7 @@
  * Based uppon Cloudflare Worker middleman API
  *
  * @author https://github.com/bnjmnrsh
- * (c) 2021 Benjamin Rush/bnjmnrsh | MIT License | https://github.com/bnjmnrsh/CloudflareWorker-middleman-API
+ * (c) 2022 Benjamin Rush/bnjmnrsh | MIT License | https://github.com/bnjmnrsh/CloudflareWorker-middleman-API
  *
  */
 
@@ -19,7 +19,8 @@
 // A named array of endpoints to fetch
 const aToFetch = [['top_stories', NYT_TOP_STORIES_API]]
 
-// Allowed origins whitelist, a null origin indicates a wrangler or worker .dev request context.
+// Whitelist of allowed origins
+// A null origin indicates a wrangler or worker .dev request context.
 // https://community.cloudflare.com/t/how-to-check-if-worker-is-running-in-wrangler-dev/421837
 const aAllowed = [
   'https://bnjmnrsh-projs.github.io',
@@ -34,7 +35,7 @@ const nFetchRetry = 3 // Number of times to retry fetch
 // Caching settings:
 // https://developers.cloudflare.com/workers/learning/how-the-cache-works
 // nTTL (Time To Live) the length of time for Cloudflare to perserve a cached value (Time To Live)
-// Date must be called inside the callback function to give the correct time.
+// Date must be called inside the fetch callback to give correct time.
 // https://stackoverflow.com/questions/58491003/how-to-get-the-current-date-in-a-cloudflares-worker
 const fConstructHeaders = function (currentTime) {
   const cCaching = {
@@ -42,6 +43,7 @@ const fConstructHeaders = function (currentTime) {
     nExpires: new Date(currentTime + 10 * 100000),
     bCacheEverything: true
   }
+
   return {
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -51,15 +53,14 @@ const fConstructHeaders = function (currentTime) {
       Expires: `${cCaching.nExpires}`,
       'content-type': 'application/json;charset=UTF-8'
     },
+    // CF response headers
+    // https://developers.cloudflare.com/workers/runtime-apis/request#requestinitcfproperties
     cf: {
       cacheTtl: `${cCaching.nTTL}`,
       cacheEverything: `${cCaching.bCacheEverything}`
     }
   }
 }
-
-// Response headers
-// cf: https://developers.cloudflare.com/workers/runtime-apis/request#requestinitcfproperties
 
 //
 // METHODS
