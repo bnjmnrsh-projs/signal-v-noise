@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Code kata using NYT api, Cloudflare Workers, localStorage and a Service Worker",
   "scripts": {
-    "start": "parcel src/index.html --dist-dir docs",
-    "build": "parcel build src/index.html --dist-dir docs --public-url ./"
+    "clean": "rimraf ./docs",
+    "start": "npm-run-all -s clean parcel_start",
+    "parcel_start": "parcel src/index.html --dist-dir docs",
+    "build": "npm-run-all -s clean parcel_build",
+    "parcel_build": "parcel build src/index.html --dist-dir docs --public-url ./"
   },
   "repository": {
     "type": "git",
@@ -41,6 +44,7 @@
     "parcel-reporter-static-files-copy": "^1.4.0",
     "postcss-banner": "^4.0.1",
     "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
     "stylelint": "^14.12.0",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-prettier": "^9.0.3",
