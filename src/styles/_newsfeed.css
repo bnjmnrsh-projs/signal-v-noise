@@ -1,7 +1,7 @@
 /* News feed */
 
 .newsfeed-wrap {
-  max-height: 80vh;
+  max-height: calc(100vh - 300px);
   margin: 0;
   padding: 0;
   transition: scroll 0.5s;
