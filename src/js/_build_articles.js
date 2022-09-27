@@ -1,7 +1,7 @@
-import { snitiz } from './_snitiz'
+import { snitiz } from './_helpers'
 import { navActiveLink } from './_nav_active_link'
 import { aSections } from './_section_array'
-import { observer } from './observer'
+import { observer } from './_observer'
 
 /**
  * Build the articles from API data, triggered by _fetchArticles.js
