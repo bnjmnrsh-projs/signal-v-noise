@@ -17,7 +17,7 @@ export const simpleRouter = function () {
     loadedSection = urlHash
     document.querySelector('#app').setAttribute('data-section', urlHash)
   }
-  // scrollToTop triggers a hashchange, this prevents mutiple fireing of fetchArticles
+  // scrollToTop triggers a hashchange, below prevents mutiple fireing of fetchArticles when this happens.
   if (urlHash === 'null' || urlHash === 'head') {
     window.removeEventListener('hashchange', simpleRouter)
     window.location.hash = loadedSection

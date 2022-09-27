@@ -4,13 +4,14 @@
  *
  * @param string targetEl class name of the element to be scrolled to the top.
  */
-export const scrollToTop = function (targetEl, triggerPoint = 100) {
+export const scrollToTop = function (targetEl, triggerPoint = 125) {
   const scrollingEl = document.querySelector(targetEl)
   const sttEl = document.querySelector('#stt')
 
-  function elTrigger(el) {
+  const elTrigger = function (el) {
     // window does not have scrollTop
-    if (el.scrollTop || el.scrollY > triggerPoint) {
+    const scrollHeight = el.scrollY || el.scrollTop
+    if (scrollHeight > triggerPoint) {
       document.body.classList.add('scrolled')
       sttEl.classList.add('-is-revealed')
     } else {
