@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2022: true
   },
   extends: [
     'plugin:import/recommended',
@@ -10,10 +10,7 @@ module.exports = {
     'standard',
     'prettier'
   ],
-  parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module'
-  },
+  parserOptions: { ecmaVersion: 12 },
   plugins: ['json-format', 'import', 'promise'],
   rules: {
     'import/no-unresolved': [2, { commonjs: true, amd: true }],
