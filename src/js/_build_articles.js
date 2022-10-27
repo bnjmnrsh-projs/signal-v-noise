@@ -70,7 +70,7 @@ export const buildArticles = function (oData) {
                                                 alt="${snitiz(
                                                   article?.multimedia[1]
                                                     ?.copyright
-                                                )}" role="presentation"/>
+                                                )}" loading="lazy" role="presentation"/>
                                             </a>`
                     }
                     assembly += `</header>
