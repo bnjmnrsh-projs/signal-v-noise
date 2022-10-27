@@ -1,5 +1,5 @@
 import { simpleRouter } from './_simple_router'
-import { Toast } from './_toast.js'
+import { Toast } from './_Toast.js'
 
 const disableEnableLinks = function (navEls, disable = true) {
   if (!navEls) return
@@ -19,7 +19,7 @@ const disableEnableLinks = function (navEls, disable = true) {
 /**
  * Detect network availability
  */
-export const network = function () {
+export const networkAvaliabilty = function () {
   const status = navigator.onLine ? 'online' : 'offline'
   document.body.setAttribute('data-network', status)
 
