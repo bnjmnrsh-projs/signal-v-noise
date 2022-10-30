@@ -8,6 +8,7 @@ const API = 'https://signal-v-noise-worker.bnjmnrsh.workers.dev'
  * @returns string
  */
 const generateErrorsMarkup = function (err) {
+  console.warn('err', err)
   return `
 <div id="ohnos">
   <h3><span aria-hidden="true">⥀.⥀ <br/></span>Oh Nooos!</h3>
@@ -18,13 +19,13 @@ ${err.stack || ''}
 ${err.type || ''}
 ${`${err.statusText || ''} ${err.status || ''}`}
 ${
-  err.top_stories.status === 429
+  err.top_stories?.status === 429
     ? `${err.top_stories.status} too many requests`
-    : err.top_stories.status
+    : err.top_stories?.status
 }
 ${err.top_stories?.error || ''}
 ${
-  err.top_stories.error_message
+  err.top_stories?.error_message
     ? ` Route not found: ${err.top_stories.error_message
         .split('/')
         .pop()
