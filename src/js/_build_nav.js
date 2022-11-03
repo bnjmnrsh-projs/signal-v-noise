@@ -5,13 +5,13 @@ import { getAllPocketKeys } from '@bnjmnrsh/satchel/dist/bindle'
  * @param {array} [data=aSections]
  */
 export const buildNav = function (rootEl, navEls) {
-  const bindle = getAllPocketKeys(true)
+  const store = getAllPocketKeys(true, 'svn-store')
   const navItems = rootEl.querySelector('nav')
   navItems.innerHTML =
     '<ul>' +
     navEls
       .map(function (navEl) {
-        const isStored = bindle.includes(navEl)
+        const isStored = store.includes('stcl.svn-store.' + navEl)
         return `<li><a href="#${navEl}" class="pill ${navEl}" data-section="${navEl}" data-stored="${isStored}">${navEl}</a></li>`
       })
       .join('') +
