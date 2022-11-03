@@ -18,10 +18,8 @@
 
   &::-webkit-scrollbar-thumb {
     border: 3px solid var(--newsprint-dk);
-    border-radius: 0;
     border-radius: 100px;
-    background-color: var(--text-black);
-    background-color: var(--shadows);
+    background-color: var(--t-magazine-pill);
   }
 
   &::-webkit-scrollbar-track {
