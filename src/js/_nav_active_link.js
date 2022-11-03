@@ -26,7 +26,7 @@ export const navActiveLink = function (navLink) {
  * @param {*} e
  */
 export const navLink = function (e) {
-  if ('section' in e.target.dataset) {
+  if ('section' in e.target.dataset && e.target.dataset.section !== undefined) {
     document
       .querySelector('#app')
       .setAttribute('data-section', e.target.dataset.section)
