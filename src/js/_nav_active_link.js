@@ -2,22 +2,20 @@
  * Set the current page link to active
  *
  */
-export const navActiveLink = function (navLink) {
+export const navActiveLink = function () {
   const currentPg = window.location.hash.replace('#', '')
   const nav = document.querySelector('nav.noise')
 
-  if (navLink) {
-    // iterate over each link
-    const pills = nav.querySelectorAll('.pill')
-
-    pills.forEach(function (pill) {
+  // iterate over each link
+  const pills = nav.querySelectorAll('.pill')
+  console.log('navActiveLink')
+  pills.forEach(function (pill) {
+    if (pill.classList.contains(currentPg)) {
+      pill.classList.add('active')
+    } else {
       pill.classList.remove('active')
-
-      if (pill.classList.contains(currentPg)) {
-        pill.classList.add('active')
-      }
-    })
-  }
+    }
+  })
 }
 
 /**
@@ -27,10 +25,7 @@ export const navActiveLink = function (navLink) {
  */
 export const navLink = function (e) {
   if ('section' in e.target.dataset && e.target.dataset.section !== undefined) {
-    document
-      .querySelector('#app')
-      .setAttribute('data-section', e.target.dataset.section)
-    e.target.classList.add('active')
+    navActiveLink()
   }
 }
 
