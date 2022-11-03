@@ -40,10 +40,10 @@ ${
 
 function getStoredArticles(section, forced = false) {
   const storedArticles = Satchel.getSatchel(section, true, 'svn-store')
-  if (storedArticles?.isFresh() || forced) {
-    if (storedArticles?.get()?.data) {
+  if (storedArticles?.isFresh() || !navigator.onLine || forced) {
+    if (storedArticles?.get(!navigator.onLine)?.data) {
       console.log('loading from store ...')
-      buildArticles(storedArticles.get().data)
+      buildArticles(storedArticles.get(!navigator.onLine).data)
       document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
       document.body.classList.remove('loading')
       return true
