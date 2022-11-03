@@ -3,7 +3,7 @@
   display: flex;
   visibility: hidden;
   position: fixed;
-  right: calc(50vw - 16px);
+  right: calc(50vw - 12px);
   bottom: 4.3vh;
   flex-direction: row;
   align-items: center;
