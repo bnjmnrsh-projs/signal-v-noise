@@ -1,5 +1,5 @@
 import { simpleRouter } from './_simple_router'
-import { Toast } from './_Toast.js'
+import { Toast } from '@bnjmnrsh/toast'
 
 const disableEnableLinks = function (navEls, disable = true) {
   if (!navEls) return
