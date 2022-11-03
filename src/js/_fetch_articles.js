@@ -97,7 +97,15 @@ export const fetchArticles = function (sSection = 'home') {
           const articlesEl = document.querySelector('#articles')
           console.error(errs)
           if (articlesEl) {
-            articlesEl.innerHTML = generateErrorsMarkup(errs)
+            console.log(errs?.top_stories?.status)
+            if (errs?.top_stories?.status === 429) {
+              const tryStore = getStoredArticles(sSection)
+              console.warn('429 too many requests, trying store')
+              if (!tryStore) {
+                // throw the error
+                articlesEl.innerHTML = generateErrorsMarkup(errs)
+              }
+            }
           }
         })
     })
