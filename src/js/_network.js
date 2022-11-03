@@ -5,9 +5,11 @@ const disableEnableLinks = function (navEls, disable = true) {
   if (!navEls) return
   navEls.forEach(function (el) {
     if (disable) {
-      el.setAttribute('data-href', el.href)
-      el.removeAttribute('href', 'href-disabled')
-      el.setAttribute('aria-disabled', true)
+      if (el.dataset.stored === 'false') {
+        el.setAttribute('data-href', el.href)
+        el.removeAttribute('href', 'href-disabled')
+        el.setAttribute('aria-disabled', true)
+      }
     } else {
       el.setAttribute('href', el.dataset.href)
       el.removeAttribute('aria-disabled')
