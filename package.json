@@ -1,6 +1,6 @@
 {
   "name": "signal-v-noise",
-  "version": "1.0.0",
+  "version": "2022.11.02",
   "description": "Code kata using NYT api, Cloudflare Workers, localStorage and a Service Worker",
   "scripts": {
     "clean": "rimraf ./docs",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/bnjmnrsh-projs/signal-v-noise.git"
   },
-  "author": "benjmnrsh@gmail.com",
+  "author": "benjmnrsh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/bnjmnrsh-projs/signal-v-noise/issues"
