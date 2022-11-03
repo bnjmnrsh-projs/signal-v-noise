@@ -60,15 +60,9 @@ function getStoredArticles(section, forced = false) {
 export const fetchArticles = function (sSection = 'home') {
   const loader = document.querySelector('#loader')
   loader.style.opacity = 1
-  document.body.classList.add('loading')
-  let storedArticles
-  if (!navigator.onLine) {
-    storedArticles = getStoredArticles(sSection, true)
-  } else {
-    storedArticles = getStoredArticles(sSection)
-  }
-
-  if (!storedArticles) {
+  const storedArticles = getStoredArticles(sSection)
+  if (!storedArticles && navigator.onLine) {
+    document.body.classList.add('loading')
     const fetchedArticles = new Promise(function (resolve, reject) {
       let data
       console.log('fetching fresh articles...')
