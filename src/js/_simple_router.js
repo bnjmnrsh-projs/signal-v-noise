@@ -12,10 +12,12 @@ export const simpleRouter = function () {
 
   urlHash = urlHash || 'home' // If there is no hash, were're home.
 
-  if (!loadedSection && urlHash) {
+  if (!loadedSection && !!urlHash) {
     // first load, but to a section not the homepage
     loadedSection = urlHash
-    document.querySelector('#app').setAttribute('data-section', urlHash)
+    if (urlHash) {
+      document.querySelector('#app').setAttribute('data-section', urlHash)
+    }
   }
   // scrollToTop triggers a hashchange, below prevents mutiple fireing of fetchArticles when this happens.
   if (urlHash === 'null' || urlHash === 'head') {
@@ -25,7 +27,7 @@ export const simpleRouter = function () {
     // Could use a debounce but this works fine.
     setTimeout(() => window.addEventListener('hashchange', simpleRouter), 1)
   } else {
-    fetchArticles(urlHash)
+    urlHash && fetchArticles(urlHash)
   }
 }
 window.addEventListener('hashchange', simpleRouter)
