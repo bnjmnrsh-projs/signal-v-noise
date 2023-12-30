@@ -35,7 +35,7 @@ export const buildArticles = function (oData) {
                         article.multimedia.length >= 3
                     ) {
                         assembly += `<a href="${snitiz(
-                          article?.short_url
+                          article?.url
                         )}" title="${snitiz(article.title)}">
                                                 <img class="loading-bg"
                                                 scrset="${snitiz(
@@ -76,7 +76,7 @@ export const buildArticles = function (oData) {
                     assembly += `</header>
                                         <section class="news-content">
                                             <header>
-                                                <h3 class="hyphens"><a href="${snitiz(article.short_url)
+                                                <h3 class="hyphens"><a href="${snitiz(article.url)
                         }">${article.title}</a></h3>
                                                   <p class="details">`
                     if (vaidSection) {
@@ -95,7 +95,7 @@ export const buildArticles = function (oData) {
                                             <div class="abstract">`
                     if (article.abstract) {
                         assembly += `<p class="hyphens">${snitiz(article?.abstract)}
-                                        <a href="${snitiz(article.short_url)}" title="${snitiz( article.title)}" class="read-more">[...more]</a>
+                                        <a href="${snitiz(article.url)}" title="${snitiz( article.title)}" class="read-more">[...more]</a>
                                       </p>`
                     }
                     assembly += `</div>
