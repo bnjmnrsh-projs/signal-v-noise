@@ -24,7 +24,11 @@
       "nesting": true
     }
   },
-  "browserslist": "last 3 years >= 0.5% not op_mini all not ie 11 not dead",
+  "browserslist": [
+    "last 3 years",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.7.0",
     "@parcel/transformer-webmanifest": "^2.7.0",
