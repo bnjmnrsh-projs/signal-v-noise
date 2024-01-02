@@ -1,12 +1,19 @@
 .page-footer {
+  display: flex;
   position: fixed;
   bottom: 0;
   left: 0;
+  flex-direction: row;
   width: 100%;
+  gap: 1em;
 }
 
 .nyt-attrib img{
   width: auto;
   overflow: hidden;
   border-top-right-radius: 5px;
+}
+
+.colophon {
+  font-size: .8em;
 }

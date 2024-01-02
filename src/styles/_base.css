@@ -32,3 +32,8 @@ body {
   outline-width: 2px;
 }
 
+a,
+a:visited
+ {
+  color: var(--t-magazine-pill)
+}
