@@ -13,7 +13,7 @@ const generateErrorsMarkup = function (err) {
   return `
 <div id="ohnos">
   <h3><span aria-hidden="true">⥀.⥀ <br/></span>Oh Nooos!</h3>
-  <p class="sr-only">There has been a crittical error:</p>
+  <p class="sr-only">There has been a critical error:</p>
     <div>
 <pre>
 ${err.stack || ''}
