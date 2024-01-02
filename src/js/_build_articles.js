@@ -20,7 +20,11 @@ export const buildArticles = function (oData) {
                 .map(function (article) {
                     const vaidSection = aSections.indexOf(snitiz(article.section)) >= 0
                     if (!vaidSection) {
-                        if(article.section === "admin") return '' // remove empty 'admin' sections
+                        if (
+                          article.section === 'admin' ||
+                          article.section === 'espanol'
+                        )
+                          return '' // remove empty 'admin' sections, and spanish articles
                     }
 
                     if (!article.abstract) return '' // remove orpahaned articles
@@ -102,10 +106,9 @@ export const buildArticles = function (oData) {
                                         </section>
                                     </article>
                                 </li>`
-
                     return assembly
-                })
-            .join('')
+                }).join('')
+
   loader.style.opacity = 0
 
   observer(
