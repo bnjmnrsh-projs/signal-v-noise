@@ -11,4 +11,15 @@
     font-size: 3em;
     line-height: 1.5;
   }
+
+}
+
+.page-not-found {
+  padding-top: 5em;
+
+  & #ohnos {
+    padding-top: 2.5em;
+  }
+
+
 }

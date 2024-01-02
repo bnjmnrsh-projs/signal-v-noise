@@ -5,9 +5,9 @@
   "scripts": {
     "clean": "rimraf ./docs",
     "start": "npm-run-all -s clean parcel_start",
-    "parcel_start": "parcel src/index.html --dist-dir docs",
+    "parcel_start": "parcel 'src/*.html' --dist-dir docs",
     "build": "npm-run-all -s clean parcel_build",
-    "parcel_build": "parcel build src/index.html --dist-dir docs --public-url ./"
+    "parcel_build": "parcel build 'src/*.html' --dist-dir docs --public-url ./"
   },
   "repository": {
     "type": "git",
