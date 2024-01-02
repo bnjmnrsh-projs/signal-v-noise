@@ -6,6 +6,7 @@ html {
 }
 
 body {
+  position: relative;
   width: 88%;
   height: 100vh;
   margin: 0 auto;

@@ -2,7 +2,7 @@
 .noise {
   align-items: flex-end;
   margin: 0 auto;
-  padding: 0.6em 3.3em;
+  padding: 2em 3.3em 0;
   border-bottom: 1px var(--shadows) solid;
 
   & ul {
