@@ -1,5 +1,4 @@
 import { snitiz } from './_helpers'
-import { navActiveLink } from './_nav_active_link'
 import { aSections } from './_section_array'
 import { observer } from './_observer'
 
@@ -8,11 +7,8 @@ import { observer } from './_observer'
  *
  * @param object oData, the incoming API data.
  */
-export const buildArticles = function (oData) {
+export const buildArticlesUI = function (oData) {
   const articleList = document.querySelector('#articles')
-  const loader = document.querySelector('#loader')
-  loader.style.opacity = 1
-  navActiveLink()
 
   // prettier-ignore
   articleList.innerHTML =
@@ -108,8 +104,6 @@ export const buildArticles = function (oData) {
                                 </li>`
                     return assembly
                 }).join('')
-
-  loader.style.opacity = 0
 
   observer(
     { root: document.querySelector('#newsfeed-wrap'), threshold: 0.25 },
