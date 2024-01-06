@@ -1,112 +1,96 @@
-/* global Response addEventListener fetch NYT_TOP_STORIES_API NYT_API_KEY */
+// worker.js
 
 /**
- * Cloudflare Worker middleman API for Signal-V-Noise
- * This middleman API is used to cache the New York Times API
- * Endpoint: https://signal-v-noise-worker.bnjmnrsh.workers.dev?section=arts
+ * Cloudflare Worker middleman API
+ * Provides a cashing layer over API
  *
- * Based uppon Cloudflare Worker middleman API
+ * Allows for requests to only come from white-listed domains
+ * Retries the request if there is a non normal response
+ * Collates mutiple api requests into a single response object (currently unused)
  *
  * @author https://github.com/bnjmnrsh
- * (c) 2022 Benjamin Rush/bnjmnrsh | MIT License | https://github.com/bnjmnrsh/CloudflareWorker-middleman-API
- *
+ * (c) 2021 Benjamin Rush/bnjmnrsh | MIT License
  */
 
-//
-// VARRIABLES
-//
+const API_KEYS = { nyt: undefined }
 
-// A named array of endpoints to fetch
-const aToFetch = [['top_stories', NYT_TOP_STORIES_API]]
-
-// Whitelist of allowed origins
-// A null origin indicates a wrangler or worker .dev request context.
-// https://community.cloudflare.com/t/how-to-check-if-worker-is-running-in-wrangler-dev/421837
+// Whitelist of allowed domains
 const aAllowed = [
+  'https://dash.cloudflare.com',
   'https://bnjmnrsh-projs.github.io',
   'http://localhost:1234',
-  'http://127.0.0.1/1234',
-  null
+  'http://127.0.0.1/'
 ]
-const bDBG = false // Debugging/Workers: set to true to disable origin whitelist checks
-const nFetchRetry = 3 // Number of times to retry fetch
-
-// See fConstructHeaders for caching settins.
-
-//
-// METHODS
-//
+const bDBG = false // Bypass aAllowed rules for debuging
+const nFetchRetry = 3 // Number of times to retry fetch on API down error
+const nThottle = 1000 // Milliseconds to wait untill fetch retry
+/**
+ * An array of API routes to be called with the results collated into a single response.
+ */
+const aToFetch = [
+  // [OBJECT_KEY_NAME, ENDPOINT_URL]
+  ['top_stories', 'https://api.nytimes.com/svc/topstories/v2/']
+]
 
 /**
- * Set up headers with desired caching
- * https://simonhearne.com/2022/caching-header-best-practices/
+ * Construct the response headers.
  *
- * https://developers.cloudflare.com/workers/learning/how-the-cache-works
- * nTTL (Time To Live) the length of time for Cloudflare to perserve a cached value (Time To Live)
+ * @param {Number} currentTime - Current time as UNIX string.
+ * @returns {Object} - Headers object with Cloudflare caching options.
  *
- * Date must be called inside the fetch callback to give correct time.
- * https://stackoverflow.com/questions/58491003/how-to-get-the-current-date-in-a-cloudflares-worker
- *
- * @param number currentTime
- * @returns object hearder object
+ * https://developers.cloudflare.com/workers/examples/cache-using-fetch/
+ * https://developers.cloudflare.com/workers/runtime-apis/request/#requestinitcfproperties
  */
-const fConstructHeaders = function (currentTime) {
+const fConstructHeaders = function (currentTime, oRequest) {
   const cCaching = {
-    nTTL: 300, // (seconds)
-    nExpires: new Date(currentTime + 10 * 100000), // not currently used
-    bCacheEverything: true
+    nTTL: 900, // seconds
+    nExpires: new Date(currentTime + 10 * 100000)
   }
-
   return {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET',
       'Access-Control-Allow-Headers': '*',
+      // Min browser cache TTL for free CF Worker is 2h, defult is 4h
       'Cache-Control': `public, max-age=${cCaching.nTTL}`,
       'content-type': 'application/json;charset=UTF-8'
     },
-    // CF response headers
-    // https://developers.cloudflare.com/workers/runtime-apis/request#requestinitcfproperties
     cf: {
-      cacheTtlByStatus: `{ "200-299": ${cCaching.nTTL}, "400-499": -1, "500-599": -1 }`,
-      cacheEverything: `${cCaching.bCacheEverything}`
+      cacheTtl: `${cCaching.nTTL}`,
+      //  For enterprise only: https://developers.cloudflare.com/cache/plans/
+      // cacheTtlByStatus: `{ "200-399": ${cCaching.nTTL}, "400-499": -1, "500-599": -1 }`,
+      cacheEverything: `${cCaching.bCacheEverything}`,
+      cacheKey: oRequest.url.toString()
     }
   }
 }
 
 /**
- * Assmbles the url string to fetch.
+ * Compose the final URL with query based on the 'section' searchParam.
  *
- * @param string baseURL
- * @param array searchParams url parameters
- * @returns string concating string representation of the API URL
+ * @TODO make the 'section' param dynamic and not hard coded.
+ *
+ * @param {String} baseURL - The base API URL.
+ * @param {URLSearchParams} searchParams - As taken from current query.
+ * @returns {String}
  */
 const assembleURL = function (baseURL, searchParams) {
   let fetchURL
-
   if (searchParams.get('section')) {
     const section = searchParams.get('section').toString()
-    fetchURL = `${baseURL}${section}.json?api-key=${NYT_API_KEY}`
+    // @ts-ignore
+    fetchURL = `${baseURL}${section}.json?api-key=${API_KEYS.nyt}`
   }
-  // extend to map to other API URL patterns
   return fetchURL
 }
 
 /**
- * Parses the JSON returned by a network request.
- * inspired by: https://github.com/github/fetch/issues/203#issuecomment-266034180
+ * JSON Parse the Response Object.
  *
- * @param  {object}         A network request response
- *
- * @return {object}         The parsed JSON, status from the response
+ * @param {Response} oResponse - The Response object.
+ * @returns {Promise<Object|Error>}
  */
-
-/* eslint prefer-promise-reject-errors: "off"
-  ----
-  We want to return error object with our API response rather then thowing a new Error.
-*/
 const fParseJSONresponse = async function (oResponse) {
-  //   console.log('fParseJSONresponse', response)
   return new Promise((resolve, reject) => {
     oResponse
       .json()
@@ -120,6 +104,7 @@ const fParseJSONresponse = async function (oResponse) {
       .catch((oError) => {
         console.error('fParseJSONresponse catch 1 error', oError)
         console.error('fParseJSONresponse catch 1 resp', oResponse)
+        // eslint-disable-next-line prefer-promise-reject-errors
         return reject({
           error: oResponse.status,
           error_message: `${oResponse.statusText} ${
@@ -131,15 +116,12 @@ const fParseJSONresponse = async function (oResponse) {
 }
 
 /**
- * Fetch replacement with better error handeling.
- * inspired by: https://github.com/github/fetch/issues/203#issuecomment-266034180
+ * Construct the API request
  *
- * @param {string} sUrl
- * @param {object} oOptions
- * @returns Promise
+ * @param {String} sUrl - URL as string.
+ * @param {Object} oOptions - Request options object
+ * @returns {Promise<Response|Error>}
  */
-
-/* eslint prefer-promise-reject-errors: "off" */
 const fRequest = async function (sUrl, oOptions) {
   return new Promise((resolve, reject) => {
     fetch(sUrl, oOptions)
@@ -148,46 +130,49 @@ const fRequest = async function (sUrl, oOptions) {
         if (oResponse.ok) {
           return resolve(oResponse.json)
         }
-        // extract the error from the server's json
         console.error('fRequest not ok')
+        // eslint-disable-next-line prefer-promise-reject-errors
         return reject({
           status: oResponse.status,
-          status_message: oResponse.json.error
+          status_message: oResponse.json.fault.faultstring
         })
       })
       .catch((oError) => {
         console.error('fRequest catch', { ...oError })
+        // eslint-disable-next-line prefer-promise-reject-errors
         return reject({ ...oError })
       })
   })
 }
 
 /**
- * Fetch with retry n times on failure
+ * Make an API fetch request, with retires if it does not connect.
  *
- * https://dev.to/ycmjason/javascript-fetch-retry-upon-failure-3p6g
- *
- * @param {string} sUrl
- * @param {obj} oOptions
- * @param {int} n
- * @returns Promise
+ * @param {String} sUrl - URL for the API request.
+ * @param {Object} oOptions - Request options object.
+ * @param {Number} n - The number of times to retry the fetch.
+ * @returns {Promise<Response|Error>}
  */
 const fFetchWithRetry = async function (sUrl, oOptions, n) {
   try {
     return await fRequest(sUrl, oOptions)
   } catch (oError) {
     console.error('error', oError)
-    if (oError.status) throw oError // recieved a reply from server, pass it on
-    if (n <= 1) throw oError // out of tries
-    console.warn(`fFetchWithRetry: Retrying fetch request: ${n}`)
+    if (oError.status) throw oError
+    if (n <= 1) throw oError
+    await new Promise((resolve) => setTimeout(resolve, nThottle)) // Adjust time for repeating the request
+    console.warn(
+      `fFetchWithRetry: Retrying fetch request: ${n}, in ${nThottle}ms`
+    )
     return await fFetchWithRetry(sUrl, oOptions, n - 1)
   }
 }
 
 /**
- * Collate results objects into a new stringified response
- * @param {object} obj
- * @returns {object}
+ * Collate responses into a single object.
+ *
+ * @param {Object} obj
+ * @returns {Object} - The API response collated into one object.
  */
 const fCollated = function (obj) {
   const oColated = {}
@@ -205,74 +190,86 @@ const fCollated = function (obj) {
   return oColated
 }
 
+const fInvalidRequest = function (status = 400, message = 'Invalid Request.') {
+  return new Response(message, {
+    status: 400,
+    statusText: message
+  })
+}
 /**
- * Fetch JSON from APIs
+ * Asynchronously handle API requests while checking cache
  *
- * @param {object} oEvent
- * @returns {string} stringified JSON
+ * @param {Object} oRequest - Request object.
+ * @returns {Promise<Response>}
  */
-const fHandleRequest = async function (oEvent, currentTime) {
-  const oRequest = oEvent.request
-  const { searchParams } = new URL(oRequest.url)
-  const oInit = fConstructHeaders(currentTime)
+const fHandleRequest = async function (oRequest) {
+  const oCache = caches.default
+  const cacheMatch = await oCache.match(oRequest.url.toString())
 
-  if (bDBG === false && !aAllowed.includes(oRequest.headers.get('origin'))) {
-    // If we're not debugging, and origin domain is not whitelisted, return 403
-    console.log('oRequest origin:', oRequest.headers.get('origin'))
+  console.log('fHandleRequest:cacheMatch', cacheMatch)
 
-    // Break out early
-    return new Response('Requests are not allowed from this domain.', {
-      status: 403.503,
-      status_message: 'Not a whitelisted domain.'
-    })
+  if (cacheMatch) {
+    return cacheMatch
+  } else {
+    console.log('fHandleRequest:oRequest', oRequest)
+    const currentTime = new Date().getTime()
+    const { searchParams } = new URL(oRequest.url)
+    console.log('fHandleRequest search:', searchParams.toString())
+    const oHeaders = fConstructHeaders(currentTime, oRequest)
+
+    if (!bDBG && !aAllowed.includes(oRequest.headers.get('origin'))) {
+      console.log(
+        'fHandleRequest:oRequest origin:',
+        oRequest.headers.get('origin')
+      )
+      return fInvalidRequest(403.503, '')
+    }
+    if (oRequest.url.includes('favicon.ico')) {
+      return fInvalidRequest()
+    }
+    if (!searchParams.get('section')) {
+      return fInvalidRequest()
+    }
+    if (oRequest.method !== 'GET') {
+      return fInvalidRequest()
+    }
+
+    const aResponses = await Promise.all(
+      aToFetch.map(function (aURL, i) {
+        const sectionURL = assembleURL(aURL[1], searchParams)
+        return fFetchWithRetry(sectionURL, oHeaders, nFetchRetry)
+          .then((oResponse) => {
+            return oResponse
+          })
+          .catch(function (oError) {
+            console.error('aResponses error', { oError })
+            return { ...oError }
+          })
+      })
+    )
+    const aResults = await Promise.all(
+      aResponses.map((resp) => JSON.stringify(resp))
+    )
+    const sCollatedResults = JSON.stringify(fCollated(aResults))
+    const oResponse = new Response(sCollatedResults, oHeaders)
+    console.log('fHandleRequest oResponse:', oResponse)
+    oCache.put(oRequest.url.toString(), oResponse.clone())
+    return oResponse
   }
-
-  // Are we asking for dummy responses?
-  // if (searchParams.get('DEV')) {
-  // Break out early
-  //   return new Response(
-  //     await DUMMYRESPONSE.get(`${searchParams.get('DEV')}`),
-  //     oInit
-  //   )
-  // }
-
-  if (oRequest.url.includes('favicon.ico') || !searchParams.get('section')) {
-    // Break out early
-    return new Response('Invalid request.', {
-      status: 400,
-      status_message: 'Invalid request.'
-    })
-  }
-
-  /**
-   * Parallel fetch from all APIs
-   *
-   * Eric Elliot: are you sure your fetching in in parallel?
-   * https://www.youtube.com/watch?v=lpDwfwhFuPQ
-   */
-  const aResponses = await Promise.all(
-    aToFetch.map(function (aURL, i) {
-      const sectionURL = assembleURL(aURL[1], searchParams)
-      return fFetchWithRetry(sectionURL, oInit, nFetchRetry)
-        .then((oResponse) => {
-          return oResponse
-        })
-        .catch(function (oError) {
-          console.error('aResponses error', { oError })
-          return { ...oError }
-        })
-    })
-  )
-
-  // Collate responses into an array
-  const aResults = await Promise.all(
-    aResponses.map((resp) => JSON.stringify(resp))
-  )
-  return new Response(JSON.stringify(fCollated(aResults)), oInit)
 }
 
-// Set an event listener for the fetch event.
-addEventListener('fetch', (oEvent) => {
-  const currentTime = new Date().getTime()
-  return oEvent.respondWith(fHandleRequest(oEvent, currentTime))
-})
+export default {
+  /**
+   * Fetch
+   *
+   * @param {Object} oRequest
+   * @param {Object} env
+   * @returns {Promise<Response>}
+   */
+  fetch(oRequest, env) {
+    API_KEYS.nyt = env.NYT_API_KEY
+
+    return fHandleRequest(oRequest)
+  }
+}
+// # sourceMappingURL=worker.js.map
