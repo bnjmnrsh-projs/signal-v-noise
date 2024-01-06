@@ -1,126 +1,93 @@
-import { buildArticles } from './_build_articles'
 import { Satchel } from '@bnjmnrsh/satchel'
-const API = 'https://signal-v-noise-worker.bnjmnrsh.workers.dev'
 
-/**
- * Create markup string for error reporting messages
- *
- * @param object err object
- * @returns string
- */
-const generateErrorsMarkup = function (err) {
-  console.warn('err', err)
-  return `
-<div id="ohnos">
-  <h3><span aria-hidden="true">⥀.⥀ <br/></span>Oh Nooos!</h3>
-  <p class="sr-only">There has been a critical error:</p>
-    <div>
-<pre>
-${err.stack || ''}
-${err.type || ''}
-${`${err.statusText || ''} ${err.status || ''}`}
-${
-  err.top_stories?.status === 429
-    ? `${err.top_stories.status} too many requests`
-    : err.top_stories?.status
-}
-${err.top_stories?.error || ''}
-${
-  err.top_stories?.error_message
-    ? ` Route not found: ${err.top_stories.error_message
-        .split('/')
-        .pop()
-        .replace('.json', '')}`
-    : ''
-}
-</pre>
-    </div>
-</div>`
-}
+const API = 'https://signal-v-noise-worker.bnjmnrsh.workers.dev'
 
 /**
  * Gets Articles stored in LocalStorage using Satchel
  *
- * TODO: getStoredArticles should not buildArticles but return a data object
- *
- * @param {strin} sSection - The section name
- * @param {boolean} [bForceStore=false] - Force retrival from store
- * @returns {boolean}
+ * @param {strin} sSection - The section key to retireve articles for.
+ * @param {boolean} [bForceStore=false] - Force retrival of stale values from store.
+ * @returns {Article[] | false} The array of article objects, or false if none found.
  */
 function getStoredArticles(sSection, bForceStore = false) {
   const storedArticles = Satchel.getSatchel(sSection, true, 'svn-store')
-  console.log('storedArticles section', storedArticles?.getKey())
-  console.log('storedArticles isFresh', storedArticles?.isFresh())
+  if (!storedArticles) {
+    console.warn(`storedArticles no results for "${sSection}"`)
+    return false
+  }
+  console.log('storedArticles section:', storedArticles?.getKey())
+  console.log('storedArticles isFresh:', storedArticles?.isFresh())
   if (storedArticles?.isFresh() || !navigator.onLine || bForceStore) {
     const inStorage = storedArticles?.get(
       !navigator.onLine || bForceStore
     )?.data
-    if (inStorage) {
-      console.log(`loading ${sSection} from store ...`)
-      buildArticles(inStorage)
-      document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
-      document.body.classList.remove('loading')
-      return true
-    }
+    if (inStorage) return inStorage
     console.log(`${sSection} not in sessionStorage ...`)
     return false
   }
 }
 
+async function fetchArticles(sSection) {
+  console.log('fetching fresh articles...')
+  const articles = fetch(API + '?section=' + sSection)
+    .then(function (resp) {
+      const data = resp.json()
+      if (resp.ok && resp.status === 200) return data
+      throw resp
+    })
+    .then(function (data) {
+      if (data.top_stories.status !== 'OK') {
+        throw data
+      }
+      // Store in LocalStoarge
+      const expiry = Date.now() + 300000 //  120000 = 2min, 300000 = 5min
+      Satchel.setKey(sSection, { data, expiry }, true, 'svn-store')
+      return data
+    })
+    .catch(function (errs) {
+      console.warn(errs)
+      // This is very simplistic
+      if (errs?.top_stories?.status !== 200) {
+        console.warn(
+          `${errs?.top_stories?.status} status code, attempting to load stale ${sSection} from store...`
+        )
+        const staleArticles = getStoredArticles(sSection, true) // check for stale data
+        if (staleArticles) return staleArticles
+      }
+      throw errs
+    })
+  return articles
+}
+
 /**
  * Gets the articles, defauts to 'home' section.
  *
- * TODO: getArticles should not buildArticles but return data object to be run elsewhere
- *
  * @param {string} [section='home']
  */
-export const getArticles = function (sSection = 'home') {
-  const loader = document.querySelector('#loader')
-  loader.style.opacity = 1
-  const storedArticles = getStoredArticles(sSection)
-  if (!storedArticles && navigator.onLine) {
-    document.body.classList.add('loading')
-    const fetchedArticles = new Promise(function (resolve, reject) {
-      let data
-      console.log('fetching fresh articles...')
-      fetch(API + '?section=' + sSection)
-        .then(function (resp) {
-          document.body.classList.remove('loading')
-          data = resp.json()
-          if (resp.ok && resp.status === 200) {
-            return data
-          } else {
-            throw resp
-          }
-        })
-        .then(function (data) {
-          if (data.top_stories.status !== 'OK') {
-            throw data
-          }
-          buildArticles(data)
-          const expiry = Date.now() + 120000 //  120000 = 2min
-          Satchel.setKey(sSection, { data, expiry }, true, 'svn-store')
-          document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
-          return data
-        })
-        .catch(function (errs) {
-          loader.style.opacity = 0
-          const articlesEl = document.querySelector('#articles')
-          if (articlesEl) {
-            // This is very simplistic
-            if (errs?.top_stories?.status !== 200) {
-              console.warn(
-                `${errs?.top_stories?.status} status code, attempting to load stale ${sSection} from store...`
-              )
-              const tryStore = getStoredArticles(sSection, true) // check for stale data
-              if (!tryStore) {
-                // throw the error
-                articlesEl.innerHTML = generateErrorsMarkup(errs)
-              }
+export async function getArticles(sSection = 'home') {
+  // Set UI loading state
+  document.body.classList.add('loading')
+  return new Promise((resolve, reject) => {
+    const articlesEl = document.querySelector('#articles')
+    if (articlesEl) {
+      const freshStoredArticles = getStoredArticles(sSection)
+      if (freshStoredArticles) {
+        return resolve(freshStoredArticles)
+      } else {
+        fetchArticles(sSection)
+          .then((articles) => {
+            return resolve(articles)
+          })
+          .catch((err) => {
+            console.warn(err)
+            const staleStoredArticles = getStoredArticles(sSection, true)
+            if (staleStoredArticles) {
+              return resolve(staleStoredArticles)
+            } else {
+              return reject(err)
             }
-          }
-        })
-    })
-    return fetchedArticles
-  }
+          })
+      }
+    }
+  })
 }

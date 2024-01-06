@@ -12,10 +12,15 @@
 
 .loader {
   height: 5px;
+  opacity: 0;
   background-color: var(--newsprint) !important;
 
   & .loading-bg {
     background-color: var(--insider-pill);
+  }
+
+  @nest .loading & {
+    opacity: 1;
   }
 }
 
