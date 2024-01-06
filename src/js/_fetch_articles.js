@@ -49,12 +49,15 @@ ${
  */
 function getStoredArticles(sSection, bForceStore = false) {
   const storedArticles = Satchel.getSatchel(sSection, true, 'svn-store')
-  console.log('storedArticles section', storedArticles.getKey())
-  console.log('storedArticles isFresh', storedArticles.isFresh())
+  console.log('storedArticles section', storedArticles?.getKey())
+  console.log('storedArticles isFresh', storedArticles?.isFresh())
   if (storedArticles?.isFresh() || !navigator.onLine || bForceStore) {
-    if (storedArticles?.get(!navigator.onLine || bForceStore)?.data) {
+    const inStorage = storedArticles?.get(
+      !navigator.onLine || bForceStore
+    )?.data
+    if (inStorage) {
       console.log(`loading ${sSection} from store ...`)
-      buildArticles(storedArticles.get().data)
+      buildArticles(inStorage)
       document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
       document.body.classList.remove('loading')
       return true
