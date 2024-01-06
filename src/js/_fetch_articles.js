@@ -38,26 +38,40 @@ ${
 </div>`
 }
 
-function getStoredArticles(section, forced = false) {
-  const storedArticles = Satchel.getSatchel(section, true, 'svn-store')
-  if (storedArticles?.isFresh() || !navigator.onLine || forced) {
-    if (storedArticles?.get(!navigator.onLine)?.data) {
-      console.log('loading from store ...')
-      buildArticles(storedArticles.get(!navigator.onLine).data)
+/**
+ * Gets Articles stored in LocalStorage using Satchel
+ *
+ * TODO: getStoredArticles should not buildArticles but return a data object
+ *
+ * @param {strin} sSection - The section name
+ * @param {boolean} [bForceStore=false] - Force retrival from store
+ * @returns {boolean}
+ */
+function getStoredArticles(sSection, bForceStore = false) {
+  const storedArticles = Satchel.getSatchel(sSection, true, 'svn-store')
+  console.log('storedArticles section', storedArticles.getKey())
+  console.log('storedArticles isFresh', storedArticles.isFresh())
+  if (storedArticles?.isFresh() || !navigator.onLine || bForceStore) {
+    if (storedArticles?.get(!navigator.onLine || bForceStore)?.data) {
+      console.log(`loading ${sSection} from store ...`)
+      buildArticles(storedArticles.get().data)
       document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
       document.body.classList.remove('loading')
       return true
     }
+    console.log(`${sSection} not in sessionStorage ...`)
     return false
   }
 }
 
 /**
- * Gets the articles, defauts to 'home' section
+ * Gets the articles, defauts to 'home' section.
+ *
+ * TODO: getArticles should not buildArticles but return data object to be run elsewhere
  *
  * @param {string} [section='home']
  */
-export const fetchArticles = function (sSection = 'home') {
+export const getArticles = function (sSection = 'home') {
   const loader = document.querySelector('#loader')
   loader.style.opacity = 1
   const storedArticles = getStoredArticles(sSection)
@@ -92,7 +106,10 @@ export const fetchArticles = function (sSection = 'home') {
           if (articlesEl) {
             // This is very simplistic
             if (errs?.top_stories?.status !== 200) {
-              const tryStore = getStoredArticles(sSection)
+              console.warn(
+                `${errs?.top_stories?.status} status code, attempting to load stale ${sSection} from store...`
+              )
+              const tryStore = getStoredArticles(sSection, true) // check for stale data
               if (!tryStore) {
                 // throw the error
                 articlesEl.innerHTML = generateErrorsMarkup(errs)

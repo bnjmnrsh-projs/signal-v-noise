@@ -1,4 +1,4 @@
-import { fetchArticles } from './_fetch_articles'
+import { getArticles } from './_fetch_articles'
 
 /**
  * A simple hash based router without caching
@@ -19,7 +19,7 @@ export const simpleRouter = function () {
       document.querySelector('#app').setAttribute('data-section', urlHash)
     }
   }
-  // scrollToTop triggers a hashchange, below prevents mutiple fireing of fetchArticles when this happens.
+  // scrollToTop triggers a hashchange, below prevents mutiple fireing of getArticles when this happens.
   if (urlHash === 'null' || urlHash === 'head') {
     window.removeEventListener('hashchange', simpleRouter)
     window.location.hash = loadedSection
@@ -27,7 +27,7 @@ export const simpleRouter = function () {
     // Could use a debounce but this works fine.
     setTimeout(() => window.addEventListener('hashchange', simpleRouter), 1)
   } else {
-    urlHash && fetchArticles(urlHash)
+    urlHash && getArticles(urlHash)
   }
 }
 window.addEventListener('hashchange', simpleRouter)
