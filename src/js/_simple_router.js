@@ -1,10 +1,12 @@
-import { getArticles } from './_fetch_articles'
+import { getArticles } from './_get_articles'
+import { buildArticlesUI } from './_build_articles'
+import { navActiveLink } from './_nav_active_link'
+import { buildErrorsUI } from './_build_errors'
 
 /**
  * A simple hash based router without caching
- *
  */
-export const simpleRouter = function () {
+export const simpleRouter = async function () {
   let urlHash = window.location.hash.replace('#', '')
   let loadedSection = document
     .querySelector('#app')
@@ -27,7 +29,25 @@ export const simpleRouter = function () {
     // Could use a debounce but this works fine.
     setTimeout(() => window.addEventListener('hashchange', simpleRouter), 1)
   } else {
-    urlHash && getArticles(urlHash)
+    if (urlHash) {
+      // Scroll to top
+      document.body.querySelector('#newsfeed-wrap').scrollTo(0, 0)
+      // Set active styles on nav pill
+      navActiveLink()
+      // load the articles
+      getArticles(urlHash)
+        .then(function (articles) {
+          return buildArticlesUI(articles)
+        })
+        .then(
+          // Disable UI loading state (slow down removal as it actaually feels better to have the blur then jank)
+          setTimeout(() => document.body.classList.remove('loading'), 300)
+        )
+        .catch((errs) => {
+          buildErrorsUI(errs)
+          throw new Error('Unable to build articles', { cause: errs })
+        })
+    }
   }
 }
 window.addEventListener('hashchange', simpleRouter)
