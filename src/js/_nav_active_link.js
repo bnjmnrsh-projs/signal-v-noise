@@ -8,25 +8,12 @@ export const navActiveLink = function () {
 
   // iterate over each link
   const pills = nav.querySelectorAll('.pill')
-  console.log('navActiveLink')
   pills.forEach(function (pill) {
     if (pill.classList.contains(currentPg)) {
+      console.log(`navActiveLink: setting active link: ${currentPg}`)
       pill.classList.add('active')
     } else {
       pill.classList.remove('active')
     }
   })
 }
-
-/**
- * Listener callback for nav clicks
- *
- * @param {*} e
- */
-export const navLink = function (e) {
-  if ('section' in e.target.dataset && e.target.dataset.section !== undefined) {
-    navActiveLink()
-  }
-}
-
-addEventListener('click', navLink)
