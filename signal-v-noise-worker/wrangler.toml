@@ -1,0 +1,8 @@
+name = "signal-v-noise-worker"
+main = "src/worker.js"
+compatibility_date = "2022-09-20"
+account_id = "f60bbee010ecca0652fb3fa11fb8e268"
+workers_dev = true
+
+[placement]
+mode = "smart"
