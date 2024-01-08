@@ -57,7 +57,7 @@
     "stylelint-order": "^5.0.0",
     "stylelint-use-nesting": "^4.0.0",
     "vitest": "^0.23.4",
-    "wrangler": "^2.1.4"
+    "wrangler": "^3.22.3"
   },
   "dependencies": {
     "@bnjmnrsh/satchel": "github:bnjmnrsh/satchel",
