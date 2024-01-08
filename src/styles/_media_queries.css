@@ -62,7 +62,8 @@
 
     & .pill {
       /* width: 90%; */
-      font-size: 0.8em;
+      font-size: 0.7em;
+      line-height: normal;
     }
   }
 
@@ -147,6 +148,12 @@
 /* Media screen rule below 750px */
 
 @media screen and (max-width: 750px) {
+  .has-overflowY {
+    &::-webkit-scrollbar {
+      width: 1rem;
+    }
+  }
+
   .page-footer {
     align-items: flex-end;
 
