@@ -6,14 +6,17 @@ const disableEnableLinks = function (navEls, disable = true) {
   navEls.forEach(function (el) {
     if (disable) {
       if (el.dataset.stored === 'false') {
-        el.setAttribute('data-href', el.href)
-        el.removeAttribute('href', 'href-disabled')
+        el.setAttribute('data-hash', el.href?.split('#')[1])
+        el.removeAttribute('href')
         el.setAttribute('aria-disabled', true)
       }
     } else {
-      el.setAttribute('href', el.dataset.href)
-      el.removeAttribute('aria-disabled')
-      el.removeAttribute('data-href')
+      if (el.dataset.stored === 'false') {
+        console.log('disableEnableLinks', el.dataset)
+        el.setAttribute('href', '#' + el.dataset.hash)
+        el.removeAttribute('aria-disabled')
+        el.removeAttribute('data-hash')
+      }
     }
   })
 }
@@ -31,9 +34,7 @@ export const networkAvaliabilty = function () {
 
   window.addEventListener('offline', (e) => {
     const nav = document.querySelectorAll('.noise .pill')
-    console.log(nav)
-
-    console.warn('Network unavailable')
+    console.warn('Network unavailable', nav)
     timeStamp = Date.now()
     disableEnableLinks(nav)
     document.body.setAttribute('data-network', 'offline')
@@ -48,8 +49,7 @@ export const networkAvaliabilty = function () {
 
   window.addEventListener('online', () => {
     const nav = document.querySelectorAll('.noise .pill')
-    console.log(nav)
-    console.warn('Network available')
+    console.warn('Network available', nav)
     document.body.setAttribute('data-network', 'online')
     disableEnableLinks(nav, false)
     if (Date.now() - timeStamp > 30000) simpleRouter()
