@@ -59,6 +59,11 @@
     & ul {
       gap: 0.4em;
     }
+
+    & .pill {
+      /* width: 90%; */
+      font-size: 0.8em;
+    }
   }
 
   article.loading {
@@ -73,14 +78,6 @@
 
     & section.loading-bg {
       width: 100%;
-    }
-  }
-
-  .noise {
-    /* width: 90%; */
-
-    & .pill {
-      font-size: 0.8em;
     }
   }
 
@@ -105,6 +102,7 @@
     }
   }
 
+
   .news-item {
     flex-direction: column;
     gap: 0.4rem;
@@ -114,9 +112,7 @@
       display: block;
       aspect-ratio: auto;
     }
-  }
 
-  .news-item {
     & .details {
       align-items: flex-start;
     }
@@ -142,11 +138,53 @@
 
   .scroll-to-top.-is-revealed {
     right: 5vw;
-    bottom: 5vw;
     width: 90vw;
     height: 55px;
   }
 }
+
+
+/* Media screen rule below 750px */
+
+@media screen and (max-width: 750px) {
+  .page-footer {
+    align-items: flex-end;
+
+    & .nyt-attrib {
+      flex-shrink: 0;
+    }
+
+    & .colophon {
+      display: inline-flex;
+      text-align: center;
+      gap: .5em;
+    }
+
+    & .author {
+      margin: auto 0;
+
+      & a {
+        display: inline-flex;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .sm-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+  }
+}
+
 
 @media screen and (max-width: 450px) {
   body {
@@ -200,7 +238,6 @@
   .masthead h1 {
     font-size: 1.6em;
   }
-
 
 }
 

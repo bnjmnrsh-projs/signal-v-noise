@@ -14,10 +14,12 @@
   gap: 1em;
 }
 
-.nyt-attrib img{
+.nyt-attrib {
+  /* flex-shrink: 0; */
   width: auto;
   overflow: hidden;
   border-top-right-radius: 5px;
+
 }
 
 .colophon {
@@ -25,15 +27,10 @@
 }
 
 .author {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   align-content: center;
   padding-right: .5em;
   gap: 1em;
-
-  & img {
-    display: block;
-    height: 22px;
-  }
 }
+
