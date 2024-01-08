@@ -8,5 +8,6 @@ npm-debug.log*
 node_modules
 .node_repl_history
 .env
+.dev.vars
 .parcel-cache
 .DS_Store
