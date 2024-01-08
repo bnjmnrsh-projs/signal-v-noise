@@ -34,44 +34,18 @@ export const buildArticlesUI = function (oData) {
                         article.multimedia !== null &&
                         article.multimedia.length >= 3
                     ) {
-                        assembly += `<a href="${snitiz(
-                          article?.url
-                        )}" title="${snitiz(article.title)}">
-                                                <img class="loading-bg"
-                                                scrset="${snitiz(
-                                                  article.multimedia[0]?.url
-                                                )} ${snitiz(
-                          article?.multimedia[0]?.width
-                        )}w,
-                                                    ${snitiz(
-                                                      article.multimedia[1]?.url
-                                                    )} ${snitiz(
-                          article?.multimedia[1]?.width
-                        )}w,
-                                                    ${snitiz(
-                                                      article.multimedia[2]?.url
-                                                    )} ${snitiz(
-                          article?.multimedia[2]?.width
-                        )}w,
-                                                    ${snitiz(
-                                                      article.multimedia[3]?.url
-                                                    )} ${snitiz(
-                          article?.multimedia[3]?.width
-                        )}w"
-                                                src="${snitiz(
-                                                  article.multimedia[1]?.url
-                                                )}"
-                                                 height="${snitiz(
-                                                   article.multimedia[1]?.height
-                                                 )}"
-                                                 width="${snitiz(
-                                                   article?.multimedia[1]?.width
-                                                 )}"
-                                                alt="${snitiz(
-                                                  article?.multimedia[1]
-                                                    ?.copyright
-                                                )}" loading="lazy" role="presentation"/>
-                                            </a>`
+                        assembly += `<a href="${snitiz(article?.url)}" title="${snitiz(article.title)}">
+                          <img class="loading-bg"
+                                scrset="
+    ${snitiz(article.multimedia[0]?.url)} ${snitiz(article?.multimedia[0]?.width)}w,
+    ${snitiz(article.multimedia[1]?.url)} ${snitiz(article?.multimedia[1]?.width)}w,
+    ${snitiz(article.multimedia[2]?.url)} ${snitiz(article?.multimedia[2]?.width)}w"
+
+                            src="${snitiz(article.multimedia[1]?.url)}"
+                            height="${snitiz(article.multimedia[1]?.height)}"
+                            width="${snitiz(article?.multimedia[1]?.width)}"
+                            alt="${snitiz(article?.multimedia[1]?.copyright)}"
+                            loading="lazy" role="presentation"/></a>`
                     }
                     assembly += `</header>
                                         <section class="news-content">
