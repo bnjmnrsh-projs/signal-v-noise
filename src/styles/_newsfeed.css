@@ -1,5 +1,4 @@
 /* News feed */
-
 .newsfeed-wrap {
   max-height: calc(100vh - 300px);
   margin: 0;
@@ -13,6 +12,149 @@
   /* min-width: 25em; */
   margin: 0.5rem 0.3rem 2rem 0;
   padding: 0;
+  column-gap: 0;
+  column-count: 1;
   list-style-type: none;
+  counter-reset: item-counter;
   overscroll-behavior: none;
+
+  & li {
+    box-sizing: border-box;
+    counter-increment: item-counter;
+    break-inside: avoid;
+  }
 }
+
+/* MEDIA RULES */
+article.loading {
+  flex-direction: column;
+  width: auto;
+  height: 470px;
+
+  & header.loading-bg {
+    width: 100%;
+    height: 80%;
+  }
+
+  & section.loading-bg {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .newsfeed-wrap {
+    height: 100%;
+    max-height: 70vh;
+  }
+
+  .newsfeed {
+    column-count: 2;
+
+    & .news-item {
+      flex-direction: column;
+
+      & .news-content {
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+
+    & .details {
+      justify-content: center;
+    }
+
+
+  }
+}
+
+@media screen and (max-width: 750) {
+  .newsfeed {
+    max-width: 90vw;
+    column-count: 2;
+
+    & .news-item {
+      box-sizing: border-box;
+      flex-direction: column;
+      min-height: 300px;
+      padding: 10px;
+      counter-increment: item-counter;
+      break-inside: avoid;
+      gap: 0.4rem;
+
+      & .news-content {
+        max-width: 100%;
+      }
+
+      & header > a {
+        display: block;
+        aspect-ratio: auto;
+      }
+
+      & .details {
+        align-items: flex-start;
+      }
+
+      & header {
+        /* padding: 0.2em; */
+
+        /* margin-bottom: 0.4em; */
+        & img {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      & .abstract {
+        margin-top: -0.3em;
+      }
+
+    }
+  }
+}
+
+
+@media screen and (min-width: 600px) {
+  .news-item:has(header:empty):not(.loading) {
+    justify-content: flex-end;
+
+    & > header {
+      display: block;
+      width: 80%;
+      height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .newsfeed-wrap {
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    overscroll-behavior: inherit;
+
+    & .has-overflowY {
+      width: 100%;
+      max-width: initial;
+    }
+  }
+
+  .newsfeed {
+    column-count: 1;
+  }
+}
+
+@media (orientation: landscape) {
+  .newsfeed-wrap {
+    height: 100%;
+    max-height: 100%;
+    overscroll-behavior: inherit;
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .newsfeed-wrap {
+    scroll-behavior: auto;
+    transition: scroll 0s;
+  }
+}
+

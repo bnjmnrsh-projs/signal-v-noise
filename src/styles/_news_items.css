@@ -1,9 +1,4 @@
 /* News  items */
-
-body.loading .news-item > * {
-  filter: blur(3px);
-}
-
 .news-item {
   display: flex;
   flex-direction: row;
@@ -17,9 +12,7 @@ body.loading .news-item > * {
   gap: 1rem;
   filter: brightness(0.97);
 
-  & > * {
-    transition: 0.2s filter linear;
-  }
+
 
   &.loaded {
     transform: translateY(0);
@@ -130,5 +123,13 @@ body.loading .news-item > * {
   & h3 a:hover {
     color: var(--charcoal);
     text-decoration: none;
+  }
+
+  & > * {
+    transition: 0.2s filter linear;
+
+    @nest body.loading & {
+      filter: blur(3px);
+    }
   }
 }
