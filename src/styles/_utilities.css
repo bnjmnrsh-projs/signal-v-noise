@@ -1,18 +1,32 @@
 /* Hidden from screen readers */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-  white-space: nowrap; /* added line */
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
 }
 
 .hyphens {
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
+}
+
+@media screen and (max-width: 750px) {
+  .sm-sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+  }
 }
