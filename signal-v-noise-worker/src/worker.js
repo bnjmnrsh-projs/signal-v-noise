@@ -2,7 +2,7 @@ import { fFetchWithRetry } from './_fetch_with_retry'
 import { assembleURL } from './_assemble_url'
 import { fCollateResponses } from './_collate_responses'
 import { fInvalidRequest } from './_invalid_requests'
-
+import { aSections } from './_section_array'
 /**
  * Cloudflare Worker middleman API
  * Provides a cashing layer over API
@@ -132,6 +132,7 @@ async function fHandleRequest(oRequest) {
 export default {
 	/**
 	 * Fetch
+	 * https://developers.cloudflare.com/workers/runtime-apis/handlers/fetch/
 	 *
 	 * @param {Object} oRequest
 	 * @param {Object} env
@@ -142,5 +143,17 @@ export default {
 		_ENV = { ...env }
 
 		return fHandleRequest(oRequest)
+	},
+	async scheduled(event, env, ctx) {
+		// set up globals
+		_ENV = { ...env }
+
+		ctx.waitUntil(() => {
+			// 1. GET KV STORE LATEST (IF NO KV RECORD START AT FIRST ENTRY OF aSections ARRAY)
+			// 2. IF AT THE LAST ENTRY OF aSections loop to start]
+			// 3. IF THE LAST ATTEMPT WAS UNSCUSSESSFULL AND MORE THEN X SECONDS OLD, THEN TRY AGAIN, OTHERWISE, SKIP TO NEXT aSections ENTRY
+			// 4. Mock a request object with the correct section, and send to fHandleRequest(oRequest)
+			// 5. IF SUCESSFULL MARK AS COMPLETE, OTHERWISE RECORD LAST ERRROR OBJECT AS STRING
+		})
 	}
 }
