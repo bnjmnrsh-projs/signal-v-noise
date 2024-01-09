@@ -1,6 +1,6 @@
 /* News feed */
 .newsfeed-wrap {
-  max-height: calc(100vh - 300px);
+  max-height: calc(100vh - 275px);
   margin: 0;
   padding: 0;
   transition: scroll 0.5s;
@@ -25,7 +25,6 @@
   }
 }
 
-/* MEDIA RULES */
 article.loading {
   flex-direction: column;
   width: auto;
@@ -41,10 +40,12 @@ article.loading {
   }
 }
 
-@media screen and (min-width: 1080px) {
+/* MEDIA RULES */
+
+@media screen and (min-width: 800px) {
   .newsfeed-wrap {
     height: 100%;
-    max-height: 70vh;
+    max-height: 85vh;
   }
 
   .newsfeed {
@@ -67,7 +68,7 @@ article.loading {
   }
 }
 
-@media screen and (max-width: 750) {
+@media screen and (max-width: 800) {
   .newsfeed {
     max-width: 90vw;
     column-count: 2;
@@ -125,22 +126,36 @@ article.loading {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
+  body {
+    overflow: scroll;
+  }
+
   .newsfeed-wrap {
-    flex-direction: column;
     height: 100%;
+    max-height: 100%;
     margin: 0;
     overscroll-behavior: inherit;
 
-    & .has-overflowY {
+
+    & .news-item {
+      flex-direction: column;
+
+      & .news-content {
+        max-width: 100%;
+      }
+    }
+
+    /* & .has-overflowY {
       width: 100%;
       max-width: initial;
-    }
+    } */
   }
 
   .newsfeed {
     column-count: 1;
   }
+
 }
 
 @media (orientation: landscape) {
