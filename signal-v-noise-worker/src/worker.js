@@ -131,7 +131,7 @@ async function fHandleRequest(oRequest) {
 
 export default {
 	/**
-	 * Fetch
+	 * Fetch handeler
 	 * https://developers.cloudflare.com/workers/runtime-apis/handlers/fetch/
 	 *
 	 * @param {Object} oRequest
@@ -144,6 +144,15 @@ export default {
 
 		return fHandleRequest(oRequest)
 	},
+
+	/**
+	 * Scheduled handeler
+	 * https://developers.cloudflare.com/workers/runtime-apis/handlers/scheduled/
+	 *
+	 * @param {Object} event
+	 * @param {Object} env - CF env object with keys
+	 * @param {Object} ctx - CF context object
+	 */
 	async scheduled(event, env, ctx) {
 		// set up globals
 		_ENV = { ...env }
