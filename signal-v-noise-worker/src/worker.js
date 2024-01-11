@@ -7,7 +7,7 @@ import { fInvalidRequest } from './_invalid_requests'
  * Cloudflare Worker middleman API
  * Provides a cashing layer over API
  *
- * Allows for requests to only come from white-listed domains
+ * Allows for requests to only come from safelisted domains
  * Retries the request if there is a non normal response
  * Collates mutiple api requests into a single response object (currently unused)
  *
@@ -18,7 +18,7 @@ import { fInvalidRequest } from './_invalid_requests'
 // Assign env variables from the CF env object in the exported fetch method.
 let _ENV = {}
 
-// Whitelist of allowed domains
+// Safelist of allowed domains
 const aAllowed = [
 	'https://dash.cloudflare.com',
 	'https://bnjmnrsh-projs.github.io',
