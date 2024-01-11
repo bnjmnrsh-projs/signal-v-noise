@@ -1,7 +1,13 @@
 import { simpleRouter } from './_simple_router'
 import { Toast } from '@bnjmnrsh/toast'
 
-const disableEnableLinks = function (navEls, disable = true) {
+/**
+ * Disable or enable links based on whether or not the section has an entry in LocalStoage.
+ * @param {NodeList} navEls
+ * @param {boolean} disable
+ * @returns void
+ */
+function disableEnableLinks(navEls, disable = true) {
   if (!navEls) return
   navEls.forEach(function (el) {
     if (disable) {
@@ -23,8 +29,10 @@ const disableEnableLinks = function (navEls, disable = true) {
 
 /**
  * Detect network availability
+ *
+ * @returns void
  */
-export const networkAvaliabilty = function () {
+export function networkAvaliabilty() {
   const status = navigator.onLine ? 'online' : 'offline'
   document.body.setAttribute('data-network', status)
 
