@@ -1,12 +1,12 @@
 /**
  * A simple Intersection Observer handeler
  *
- * @param object options object
- * @param string id of container element, defaults to the body element
- * @param string class assigned to target elements, defaults to '.observable'
+ * @param {object} options object
+ * @param {string} id of container element, defaults to the body element
+ * @param {string} class assigned to target elements, defaults to '.observable'
  * @returns
  */
-export const observer = function (
+export function observer(
   options = {},
   targets = '.observable',
   targetObservedClass = 'loaded'
