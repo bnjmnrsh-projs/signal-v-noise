@@ -2,9 +2,10 @@
  * Scroll to the top of an element and add or remove classes for styleing.
  * The scrolling speed & behavior is managed by css.
  *
- * @param string targetEl class name of the element to be scrolled to the top.
+ * @param {string} targetEl class name of the element to be scrolled to the top.
+ * @param {number} triggerPoint pixel distance from the top of the element to trigger the scroll.
  */
-export const scrollToTop = function (targetEl, triggerPoint = 125) {
+export function scrollToTop(targetEl, triggerPoint = 125) {
   const scrollingEl = document.querySelector(targetEl)
   const sttEl = document.querySelector('#stt')
 
